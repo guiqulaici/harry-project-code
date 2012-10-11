@@ -7,7 +7,7 @@
 </head>
 <body>
 	${return}
-	<form action="<%=request.getContextPath()%>/login/login.html" id="loginForm" name="loginForm" method="post">
+	<form action="<%=request.getContextPath()%>/login/login.do" id="loginForm" name="loginForm" method="post">
 		用户:<input type="text" id="username" name="username" value=""/>
 		密码:<input type="text" id="password" name="password" value=""/>
 		<input type="submit"/>

@@ -22,9 +22,12 @@ public class User implements java.io.Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
 	private int id;
-	
+
 	@Column(name = "name", nullable = false, length = 50)
 	private String name;
+
+	@Column(name = "password", nullable = false, length = 50)
+	private String password;
 
 	@Column(name = "init_fromid", nullable = false, length = 10)
 	private int initFromid;
@@ -70,6 +73,14 @@ public class User implements java.io.Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public int getInitFromid() {

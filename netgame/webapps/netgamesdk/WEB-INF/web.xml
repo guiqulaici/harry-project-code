@@ -2,11 +2,10 @@
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
-	<description>www.netgame.com/admin</description>
-	
+	<description>www.netgame.com/netgamesdk</description>
 	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:applicationContext-hibernate.xml</param-value>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:applicationContext-hibernate.xml</param-value>
 	</context-param>
 	
 	<listener>
@@ -31,7 +30,7 @@
     <listener>  
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>  
     </listener> 
-	
+    
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
