@@ -63,7 +63,7 @@ public class PropertyUtil {
 	public static void main(String[] args) {
 		System.out.println(getProperty("cache.address"));
 		reload();
-		System.out.println(getProperty("sina.share.adjust.scale"));
-		System.out.println(getProperty("kong.share.adjust.scale"));
+		System.out.println(getProperty("xxx"));
+		System.out.println(getProperty("xxx"));
 	}
 }
