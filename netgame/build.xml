@@ -6,12 +6,24 @@
 	<property name="dest" value="${basedir}/dest"></property>
 	<property name="src" value="${basedir}/src/java"></property>
 	<property name="conf" value="config/linux"></property>
+	<property name="lib.dir" value="${basedir}/lib" />
+	
+	<path id="lib.class.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<!-- <pathelement path="${build.dir}" /> -->
+	</path>
 	
 	<target name="compiler" depends="version" description="编译src/java的java文件">
 		<mkdir dir="${classes}"/>
 		<mkdir dir="${dest}"/>
 		
-		<javac destdir="${classes}" srcdir="${src}" encoding="UTF-8" source="1.6" debug="true" includeantruntime="false"></javac>
+		<javac destdir="${classes}" encoding="UTF-8" source="1.6" debug="true" includeantruntime="false">
+			<src path="${src}"></src>
+			<classpath refid="lib.class.path" />
+		</javac>
+		
 		<copy file="${conf}/log4j-linux.properties" tofile="${classes}/log4j.properties"></copy>
 		<copy file="${conf}/config-linux.properties" tofile="${classes}/config.properties"></copy>
 		

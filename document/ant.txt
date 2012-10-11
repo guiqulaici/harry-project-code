@@ -1,0 +1,11 @@
+<path id="lib.class.path">
+	<fileset dir="${lib.dir}">
+		<include name="**/*.jar" />
+	</fileset>
+</path>
+
+当javac命令需要编译的类需要依赖一些其他的包是，我们需要将这些包也导入进来比如这里classpath
+<javac destdir="${classes}" encoding="UTF-8" source="1.6" debug="true" includeantruntime="false">
+	<src path="${src}"></src>
+	<classpath refid="lib.class.path" />
+</javac>
