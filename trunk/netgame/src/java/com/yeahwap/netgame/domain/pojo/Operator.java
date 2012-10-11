@@ -15,7 +15,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(name = "auth_operator", uniqueConstraints = @UniqueConstraint(columnNames = { "login" }))
-public class Operator {
+public class Operator implements java.io.Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
