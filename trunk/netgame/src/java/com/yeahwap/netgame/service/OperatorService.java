@@ -12,11 +12,10 @@ import com.yeahwap.spring.GeneralService;
 public class OperatorService extends GeneralService<Operator> {
 	@Transactional(readOnly = true)
 	public Operator get(int id) {
-		System.out.println("aaa");
 		Operator operator = super.get(id);
 		return operator != null ? operator : null;
 	}
-
+	
 	public static void main(String[] args) {
 		ApplicationContext cxt = new ClassPathXmlApplicationContext(
 				"applicationContext-hibernate.xml");
