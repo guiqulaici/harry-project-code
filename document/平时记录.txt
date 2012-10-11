@@ -248,7 +248,23 @@ replicate-ignore-db=需要复制的数据库名，如果复制多个数据库，
 
 51、wget curl
 
-52、postfix反垃圾机制
+52、postfix反垃圾机制复习(现有服务器上的发出和收入限制)
+
+53、AOP args和argNames详情搞清楚
+54、log4j，在root默认的里面添加的多个日志都可以记录
+55、memecahed必须要将使用的实体序列化
+
+
+56、public class UserController {
+	@Resource
+	private UserService userService;
+	
+	// value = "userRegister"也会匹配userRegister.htm最好写上
+	@RequestMapping(value = "userRegister", method=RequestMethod.GET, params={"name","password"})
+	public String userRegister(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletRequest req) {
+		System.out.println("进来了!!");
+		User user = new User();
+	spring mvc 的方法中用request.setAtt(xxx,xxx)在jsp页面上也可以用el表达式获取
 
 
 
