@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class OperatorCache {
-	
-	@Around(value="execution(* com.yeahwap.netgame.service.OperatorService.get(int)) && args(id)")
+	@Around(value="execution(* com.yeahwap.netgame.service.OperatorService.get(int)) && args(id)", argNames="id")
 	public Object getCache(ProceedingJoinPoint pjp, int id) throws Throwable {
 		System.out.println("我是aop的拦截");
 		return pjp.proceed();
