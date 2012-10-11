@@ -1,0 +1,119 @@
+1、json
+2、线程
+3、spring--aop
+4、hibernate
+5、io
+6、<%=%> 和 <%%>
+7、如何让a连接看起来像按钮
+8、select 这样的列表选择
+10、几种访问权限的理解 public private protecet
+11、用类型去实现不同类的手法
+12、代码控制数据库表的建立，和定时删除表中的数据
+13、ANT
+14、javabean
+15、tomcat的结构和tomcat集群，多个tomcat共享session
+16、filter
+17、nginx
+18、servlet转发，如果不取值然后再setAtt 会不会丢失值
+19、dao是操作数据的原始单元，
+service主要是用于事务控制，一个service层函数就是一个事务，一个service层函数可能会有多个dao的数据库操作
+
+
+20、spring
+1、DAO层如果方法是静态的，那么就不需要用spring去注入，照样可以调用方法，那么依赖注入的好处是什么?
+
+30、Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]; 
+
+21、MD5加密和解密
+22、http传递编码
+select name,count(*) from (select name,sex from table group by name,sex) group by name;
+二叉树
+数组的定义忘记了
+java.sql.date 和 java.util.Date之间的转换
+tomcat 工作流程,比如初始化加载
+linux 命令
+java的下载上传
+request.getParameter和request.getAttu的区别
+ajax上传image和file （serlvetupload.jar）
+js和jquery设置html标签的属性的方式 比如($("#id").attr("src",""))
+struts中的mapping.forward（）背后的原理 是不是request.getrequestdispatched（"/"）.forward(request,response);
+文件读取流，其中关于文件读取设置文件编码的清参照apk解包
+<a onclick="HomePage(-1)" href="javascript:void(0);">全部</a> 表示一个死链接
+checkbox用法
+jsp<%!%>原理
+<jsp include
+几种request Request
+jsp 逻辑<%! <%
+ln -s 建立符合连接
+web前台用"/"代表什么路径
+如何记录java中类被调用的次数
+mysql中sql_mode的问题
+logrotate
+参照polit_java有详细解释Iterator,Element, Comparator
+kill -9
+cat /prove/cpuinfo
+wc 命令
+tomcat nio
+insert into select
+hessian
+jms
+spring mvc
+form + iframe
+ajax调用iframe的技术
+单点登录
+spring的read+write Datasoure 分离
+spring配置中添加自定义标签
+liunx svn
+liunx iptables
+liunx mimun
+liunx vsftp
+liunx 邮件服务器 postfix docount
+memcache
+zookeeper
+
+sql:合并多条记录，字符串相加
+sdk的算法，上次优化的
+
+
+==============
+
+#nginx 0.7.x，
+#tomcat 5.x、6.x、7.x，
+#mysql 5.1(12)、5.0.45(46、47、82)，
+#Apache active MQ 5.x，
+#memcache 1.2.1，
+#zookeeper，
+#jdk 1.6，
+#vsftp，
+#svn 1.4.x，
+#Apache
+munin 1.2.6，
+NFS，
+postfix 2.7.x+dovecot
+vpn
+扫描网站自动发短信
+
+什么叫连接池
+
+堆栈
+
+
+位操作运算符是用来进行二进制位运算的运算符。
+它分为两类：逻辑位运算符和移位运算符。
+1、逻辑位运算符
+（1）单目逻辑位运算符：~（按位求反）
+作用是将各个二进制位由1变0，由0变1。
+（2）双目逻辑运算符：&（按位与），|（按位或），^（按位异或）
+其中优先级&高于^，而^高于|。
+　& ：两个都为1时结果为1。
+　| ：两个其中有一个为1则结果为1。
+　^ ：两个不同则结果为1，否则为0。
+2、移位运算符
+　　移位运算符有两个，<<（左移）、>>（右移）。两个 都是双目运算符。
+　例. 指出下面表达式的功能。 
+　(a&0234)|(b&0xff)<<8
+答：将整数a的低字节作为作为结果的低字节，b的低字节作为结果的高字节拼成一个新的整数。
+
+
+
+winhex运用数据恢复
