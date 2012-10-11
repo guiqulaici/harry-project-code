@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:if="http://www.yeahwap.com/spring/if"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.yeahwap.com/spring/if http://www.yeahwap.com/spring/if.xsd">
+
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
+	<!-- (in this case, JDBC-related settings for the dataSource definition below) -->
+	<context:property-placeholder location="classpath:config.properties" />
+
+	<!-- DriverManagerDataSource is a local DataSource that works in any environment. -->
+	<!-- Note that DriverManagerDataSource does not pool connections and is therefore not intended for production. -->
+	<!-- See applicationContext-jdbc.xml for an example of using Commons DBCP BasicDataSource as an alternative. -->
+	<!-- See the Image Database sample application for an example of using C3P0 ComboPooledDataSource as alternative. -->
+
+	<bean id="statDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		p:driverClassName="${stat.jdbc.driverClassName}"
+		p:url="${stat.jdbc.url}" p:username="${stat.jdbc.username}"
+		p:password="${stat.jdbc.password}"
+		p:maxActive="${stat.jdbc.maxActive}" p:maxIdle="${stat.jdbc.maxIdle}"
+		p:minIdle="${stat.jdbc.minIdle}" />	
+	
+	<bean id="readOnlyDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		p:driverClassName="${readOnly.jdbc.driverClassName}"
+		p:url="${readOnly.jdbc.url}" p:username="${readOnly.jdbc.username}"
+		p:password="${readOnly.jdbc.password}"
+		p:maxActive="${readOnly.jdbc.maxActive}"
+		p:maxIdle="${readOnly.jdbc.maxIdle}"
+		p:minIdle="${readOnly.jdbc.minIdle}" />
+	
+	<bean id="writableDataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.url}"
+		p:username="${jdbc.username}" p:password="${jdbc.password}"
+		p:maxActive="${jdbc.maxActive}" p:maxIdle="${jdbc.maxIdle}"
+		p:minIdle="${jdbc.minIdle}" />
+	
+	<bean id="dataSource"
+		class="com.yeahwap.spring.ReadWriteRoutingDataSource">
+		<property name="targetDataSources">
+			<map key-type="java.lang.String">
+				<!-- 先统一用一个数据库先 -->
+				<entry key="readOnly" value-ref="readOnlyDataSource" />
+				<entry key="writable" value-ref="writableDataSource" />
+			</map>
+		</property>
+		
+		<property name="defaultTargetDataSource" ref="writableDataSource" />
+	</bean>
+	
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" p:dataSource-ref="dataSource">
+		<property name="packagesToScan">
+			<list>
+				<value>com.yeahwap.netgame.domain.pojo</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<prop key="connection.autoReconnect">${connection.autoReconnect}</prop>
+				<prop key="connection.autoReconnectForPools">${connection.autoReconnectForPools}</prop>
+				<prop key="connection.is-connection-validation-required">${connection.is-connection-validation-required}</prop>
+			</props>
+		</property>
+		
+		<property name="eventListeners">
+			<map>
+				<entry key="merge">
+					<bean class="org.springframework.orm.hibernate3.support.IdTransferringMergeEventListener" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="myTransactionManager"
+		class="com.yeahwap.spring.ManagedHibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" />
+		
+	<tx:annotation-driven  transaction-manager="myTransactionManager"/>	
+		
+	<bean id="hibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate"
+		p:sessionFactory-ref="sessionFactory" />	
+	
+	<context:component-scan base-package="com.yeahwap.netgame.service"></context:component-scan>
+</beans>

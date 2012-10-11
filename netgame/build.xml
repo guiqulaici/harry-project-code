@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<project name="netgame" default="jar" basedir=".">
+	<property file="build.properties"></property>
+	<property name="project_name" value="${project.name}"></property>
+	<property name="classes" value="${basedir}/build/classes"></property>
+	<property name="dest" value="${basedir}/dest"></property>
+	<property name="src" value="${basedir}/src/java"></property>
+	<property name="conf" value="config/linux"></property>
+	
+	<target name="compiler" depends="version" description="编译src/java的java文件">
+		<mkdir dir="${classes}"/>
+		<mkdir dir="${dest}"/>
+		
+		<javac destdir="${classes}" srcdir="${src}" encoding="UTF-8" source="1.6" debug="true" includeantruntime="false"></javac>
+		<copy file="${conf}/log4j-linux.properties" tofile="${classes}/log4j.properties"></copy>
+		<copy file="${conf}/config-linux.properties" tofile="${classes}/config.properties"></copy>
+		
+		<copy todir="${classes}">
+			<fileset dir="${src}">
+				<include name="**/*.xml"/>
+				<include name="**/*.txt"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="jar" depends="version,compiler" description="将所有的文件打成jar包">
+		<jar destfile="${dest}/${project_name}.jar">
+			<fileset dir="${classes}">
+				<exclude name="**/*.properties"/>
+			</fileset>
+		</jar>
+		
+		<copy todir="${dest}">
+			<fileset dir="${classes}">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="clean" description="删除所有的打包文件">
+		<delete dir="build"></delete>
+		<delete dir="${dest}"></delete>
+	</target>
+	
+	<target name="version" if="ant.java.version">
+		<echo message="Java Version: ${ant.java.version}" />
+	</target>
+</project>
