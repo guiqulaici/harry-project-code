@@ -14,9 +14,13 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Create on 2012-10-12 07:46
  * 
  * @author Harry
- * 
+ *         <ul>
+ *         <li>Title:GeneralService.java</li>
+ *         <li>description: 操作数据库的基类</li>
+ *         </ul>
  */
 public class GeneralService<T> {
 	protected Logger log = Logger.getLogger(getClass());
@@ -31,7 +35,8 @@ public class GeneralService<T> {
 			} catch (Exception e) {
 			}
 		}
-		entityClass = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
+		entityClass = (Class<T>) ((ParameterizedType) type)
+				.getActualTypeArguments()[0];
 	}
 
 	public Class<T> getEntityClass() {

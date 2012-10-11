@@ -16,7 +16,7 @@ import com.yeahwap.netgame.Constants;
 
 
 /**
- * @author bill
+ * @author Harry
  * 
  */
 public class MemcacheUtil {
@@ -149,9 +149,6 @@ public class MemcacheUtil {
 		}
 	}
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// flush();
@@ -161,14 +158,14 @@ public class MemcacheUtil {
 		// b.name = "name";
 		// b.remark = "adfadsf";
 		// a.add(b);
-		// set("bill", 3600, a);
-		// System.out.println(decr("bill", 1));
-		// System.out.println(incr("bill", 1000));
+		// set("Harry", 3600, a);
+		// System.out.println(decr("Harry", 1));
+		// System.out.println(incr("Harry", 1000));
 		System.out.println(get("bill"));
-		// replace("bill", 3600, "merry");
-		// System.out.println(get("bill"));
-		// delete("bill");
-		// System.out.println(get("bill"));
+		// replace("Harry", 3600, "ljl");
+		// System.out.println(get("Harry"));
+		// delete("Harry");
+		// System.out.println(get("Harry"));
 		// mc.shutdown();
 		System.out.println("[" + getAddress() + "]");
 	}
