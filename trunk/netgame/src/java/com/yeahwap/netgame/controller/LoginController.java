@@ -41,9 +41,6 @@ public class LoginController {
 		list.add(operator.getPassword());
 		modelmap.put("return", list);
 		
-		//req.setAttribute("", "");
-		// req.getRequestDispatcher("login.jsp").forward(req, reponse);
-		//reponse.sendRedirect("");
 		return  "login";
 	}
 	
