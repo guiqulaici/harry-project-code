@@ -27,7 +27,7 @@ public class LoginController {
 	@Resource
 	private OperatorService operatorService;
 	
-	@RequestMapping(value = "login", method = RequestMethod.POST, params = {
+	@RequestMapping(value = "login.do", method = RequestMethod.POST, params = {
 			"username", "password" })
 	public String login(@RequestParam("username") String name,
 			@RequestParam("password") String password, ModelMap modelmap) {
