@@ -1,7 +1,5 @@
 package com.yeahwap.netgame.service;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +12,5 @@ public class OperatorService extends GeneralService<Operator> {
 	public Operator get(int id) {
 		Operator operator = super.get(id);
 		return operator != null ? operator : null;
-	}
-	
-	public static void main(String[] args) {
-		ApplicationContext cxt = new ClassPathXmlApplicationContext(
-				"applicationContext-hibernate.xml");
-		OperatorService os = (OperatorService) cxt.getBean("operatorService");
-		os.get(1);
 	}
 }

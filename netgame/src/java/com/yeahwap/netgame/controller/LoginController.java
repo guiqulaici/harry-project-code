@@ -15,7 +15,7 @@ import com.yeahwap.netgame.domain.pojo.Operator;
 import com.yeahwap.netgame.service.OperatorService;
 
 /**
- * 处理登录的控制类
+ * 处理后台登录的控制类
  * 
  * @author Harry
  * 

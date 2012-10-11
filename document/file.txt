@@ -1,0 +1,3 @@
+1、AOPargs和argNames详情搞清楚
+2、log4j，在root默认的里面添加的多个日志都可以记录
+3、memecahed必须要将使用的实体序列化
