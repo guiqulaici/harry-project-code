@@ -14,7 +14,6 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
 			http://www.yeahwap.com/spring/if http://www.yeahwap.com/spring/if.xsd">
-
 	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
 
 	<!-- Configurer that replaces ${...} placeholders with values from a properties file -->
@@ -106,4 +105,14 @@
 	
 	<context:component-scan base-package="com.yeahwap.netgame.service"></context:component-scan>
 	<context:component-scan base-package="com.yeahwap.netgame.domain.cache"></context:component-scan>
+	
+	
+	
+	<if:condition test="${hessian.server.load}" location="/config.properties">
+		<import resource="hessian-server.xml" />
+	</if:condition>
+	
+	<if:condition test="${hessian.client.load}" location="/config.properties">
+		<import resource="hessian-client.xml" />
+	</if:condition>
 </beans>
