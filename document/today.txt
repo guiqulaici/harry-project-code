@@ -1,0 +1,70 @@
+XML是可扩展的语言，因为你可以随便定义
+
+XML:可以随意定义，这是最本质的东西，比如橡皮泥，可以理解成，XML可以定义，你心中所想的对象
+DTD：约束XML而存在的(说白了就是xml加上某些规范后的xml)，比如DTD说，橡皮泥，必须有颜色和产地，纳闷XML中就必须给橡皮泥添加颜色和产地，XSD跟DTD一样，只不过比XSD方便
+XSL：你的想法，你可以拿XML橡皮泥做什么，比如我可以做成猫，也可以做成狗
+
+<copy todir="${classes}">
+			<fileset dir="${src}">
+			ant的这种复制，不只是复制单个文件，还复制了文件的路径,就是包括当前文件所在的文件夹都一起复制过去了
+				<include name="**/*.xml"/>
+				<include name="**/*.txt"/>
+				<include name="**/*.handlers" />
+				<include name="**/*.schemas" />
+				<include name="**/*.xsd"/>
+			</fileset>
+		</copy>
+
+
+
+需要将所用包也引用过去，否则不能javac编译
+<path id="lib.class.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<!-- <pathelement path="${build.dir}" /> -->
+	</path>
+	
+	<target name="compiler" depends="version" description="编译src/java的java文件">
+		<mkdir dir="${classes}"/>
+		<mkdir dir="${dest}"/>
+		
+		<javac destdir="${classes}" encoding="UTF-8" source="1.6" debug="true" includeantruntime="false">
+			<src path="${src}"></src>
+			<classpath refid="lib.class.path" />
+		</javac>
+		
+		<copy file="${conf}/log4j-linux.properties" tofile="${classes}/log4j.properties"></copy>
+		<copy file="${conf}/config-linux.properties" tofile="${classes}/config.properties"></copy>
+		
+		<copy todir="${classes}">
+			<fileset dir="${src}">
+				<include name="**/*.xml"/>
+				<include name="**/*.txt"/>
+				<include name="**/*.handlers" />
+				<include name="**/*.schemas" />
+				<include name="**/*.xsd"/>
+			</fileset>
+		</copy>
+	</target>
+
+
+
+
+
+
+
+
+
+
+HessianProxyFactoryBean extends HessianClientInterceptor(里面可以注入HessianProxyFactory){
+	
+	HessianProxyFactory{
+		setTimeout等等
+		
+		HessianURLConnectionFactory imple Connectionfactory {
+			open（设置head信息）
+		}
+	}
+	
+}

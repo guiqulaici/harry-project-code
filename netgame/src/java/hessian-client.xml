@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+				http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+	
+	<bean id="myHessianConnectionFactory" class="com.yeahwap.netgame.hessian.MyHessianConnectionFactory" scope="prototype">
+		<property name="key" value="${hessian.client.key}"></property>
+		<property name="ip" value="${hessian.client.ip}"></property>
+		<property name="hessianProxyFactory" ref="myHessianProxyFactory"></property>
+	</bean>
+	
+	<!--不能是单例的 -->
+	<bean id="myHessianProxyFactory" class="com.caucho.hessian.client.HessianProxyFactory">
+		<property name="connectionFactory" ref="myHessianConnectionFactory"></property>
+		<property name="hessian2Request" value="true" />
+		<property name="chunkedPost" value="true" />
+		<property name="overloadEnabled" value="true" />
+		<property name="readTimeout" value="3000" />
+	</bean>
+	
+	<bean id="userHessianService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="proxyFactory" ref="myHessianProxyFactory" />
+		<property name="serviceUrl" value="${hessian.client.url}/userHessianService"></property>
+		<property name="serviceInterface" value="com.yeahwap.netgame.hessian.UserHessianService"></property>
+	</bean>
+</beans>

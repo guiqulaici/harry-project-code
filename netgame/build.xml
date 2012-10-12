@@ -31,6 +31,9 @@
 			<fileset dir="${src}">
 				<include name="**/*.xml"/>
 				<include name="**/*.txt"/>
+				<include name="**/*.handlers" />
+				<include name="**/*.schemas" />
+				<include name="**/*.xsd"/>
 			</fileset>
 		</copy>
 	</target>
