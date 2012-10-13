@@ -13,4 +13,5 @@ import com.yeahwap.netgame.util.PropertyUtil;
  */
 public class Constants {
 	public static final String CACHE_ADDRESS = PropertyUtil.getProperty("cache.address");
+	public static final String METHOD = PropertyUtil.getProperty("method");
 }

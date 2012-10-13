@@ -19,6 +19,10 @@ public class HessianController {
 	
 	@RequestMapping("userHessianService")
 	public void getHessianService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		userHessianServer.handleRequest(request, response);
+		String key = request.getHeader("valid-str");
+		System.out.println("key=" + key);
+		if (!("").equals(key) && key != null) {
+			userHessianServer.handleRequest(request, response);
+		}
 	}
 }

@@ -13,15 +13,9 @@ import com.yeahwap.netgame.util.CipherUtil;
 public class MyHessianConnectionFactory extends HessianURLConnectionFactory {
 	
 	private static final Logger log = Logger.getLogger(MyHessianConnectionFactory.class);
-	//private HessianProxyFactory factory;
 	private String key;
 	private String ip;
 
-//	@Override
-//	public void setHessianProxyFactory(HessianProxyFactory factory) {
-//		super.setHessianProxyFactory(factory);
-//	}
-	
 	public String getKey() {
 		return key;
 	}
