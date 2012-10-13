@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.yeahwap.netgame.Constants;
+import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.netgame.hessian.UserHessianService;
 import com.yeahwap.netgame.hessian.pojo.UserHessian;
 
@@ -28,25 +29,29 @@ import com.yeahwap.netgame.hessian.pojo.UserHessian;
  */
 @Controller
 public class UserController {
-	//没有找到名称就按类型装配,晚上继续测试，到底调用的是哪个service
+	//先名称再按类型装配，这里使用到类型
 	@Resource
 	private UserHessianService userHessianService;
 	@Resource
 	private UserHessianService userHessianServiceImpl;
 
-	@RequestMapping(value = "/sdk/userRegister.do", method = RequestMethod.GET, params = {
-			"name", "password" })
-	public String userRegister(@RequestParam("name") String name,
-			@RequestParam("password") String password, HttpServletRequest req) {
+	@RequestMapping(value = "/sdk/userRegister.do", method = RequestMethod.GET, params = {"name", "password" })
+	public String userRegister(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletRequest req) {
 		UserHessian user = new UserHessian();
 		user.setName(name);
 		user.setPassword(password);
 		user.setInitFromid(1);
 		user.setDateline(new Date());
+		user.setMobile("");
+		user.setEmail("");
+		user.setScore(0);
 		user.setIsview(0);
 		user.setType(0);
-		boolean flag = getService().add(user);
-		req.setAttribute("return", flag);
+		user.setWeiboId("");
+		user.setToken("");
+		user.setSecret("");
+		User u = getService().add(user);
+		req.setAttribute("user", u);
 		return "userregister";
 	}
 
