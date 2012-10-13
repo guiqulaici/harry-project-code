@@ -17,14 +17,15 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-sdk-servlet.xml</param-value>
+			<param-value>classpath:spring-servlet.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+<!--requetRampping是的匹配时根据/sdk/*完全匹配到剩余的url去匹配的 -->
 	<servlet-mapping>
 		<servlet-name>springmanager</servlet-name>
-		<url-pattern>/sdk/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
     <listener>  
