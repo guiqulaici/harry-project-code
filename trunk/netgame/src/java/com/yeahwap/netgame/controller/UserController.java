@@ -19,7 +19,7 @@ import com.yeahwap.netgame.service.UserService;
 public class UserController {
 	@Resource
 	private UserService userService;
-	
+	// http://localhost:8080/netgamesdk/sdk/userRegister.do?user=yelei&password=123456
 	@RequestMapping(value = "userRegister.do", method = RequestMethod.GET, params = {"name", "password" })
 	public String userRegister(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletRequest req) {
 		User user = new User();

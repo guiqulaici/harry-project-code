@@ -7,7 +7,6 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 
 import com.caucho.hessian.client.HessianConnection;
-import com.caucho.hessian.client.HessianProxyFactory;
 import com.caucho.hessian.client.HessianURLConnectionFactory;
 import com.yeahwap.netgame.util.CipherUtil;
 
