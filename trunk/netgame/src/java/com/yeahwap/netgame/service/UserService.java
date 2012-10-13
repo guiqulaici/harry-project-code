@@ -12,4 +12,9 @@ public class UserService extends GeneralService<User> {
 	public int add(User u) {
 		return super.add(u);
 	}
+	
+	@Transactional(readOnly=true)
+	public User get(int id) {
+		return super.get(id);
+	}
 }
