@@ -106,8 +106,6 @@
 	<context:component-scan base-package="com.yeahwap.netgame.service"></context:component-scan>
 	<context:component-scan base-package="com.yeahwap.netgame.domain.cache"></context:component-scan>
 	
-	
-	
 	<if:condition test="${hessian.server.load}" location="/config.properties">
 		<import resource="hessian-server.xml" />
 	</if:condition>
