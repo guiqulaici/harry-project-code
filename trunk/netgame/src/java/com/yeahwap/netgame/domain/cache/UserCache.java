@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 import com.yeahwap.netgame.domain.pojo.User;
+import com.yeahwap.netgame.util.MemcacheUtil;
 
 @Component
 @Aspect
@@ -17,9 +18,51 @@ public class UserCache {
 	
 	@Around(value="execution(* com.yeahwap.netgame.service.UserService.add(com.yeahwap.netgame.domain.pojo.User)) && args(u)", argNames="u")
 	private Object addCache(ProceedingJoinPoint pjp , User u) throws Throwable{
-		// key = DEFAULT_PREFIX + ""
-		// User user = MemcacheUtil.get();
+		Object ret = pjp.proceed();
+		String key = DEFAULT_PREFIX + (Integer) ret;
+		MemcacheUtil.delete(key);
 		
-		return pjp.proceed();
+		if (log.isDebugEnabled()) {
+			System.out.println("delete from memcache:" + key);
+			log.debug("delete from memcache:" + key);
+		}
+		return ret;
+	}
+	
+	@Around (value="execution(* com.yeahwap.netgame.service.UserService.update(com.yeahwap.netgame.domain.pojo.User)) && args(u)",argNames="u")
+	private void updateCache(ProceedingJoinPoint pjp, User u) throws Throwable {
+		pjp.proceed();
+		String key = DEFAULT_PREFIX + u.getId();
+		MemcacheUtil.delete(key);
+		
+		if (log.isDebugEnabled()) {
+			System.out.println("delete from memcache:" + key);
+			log.debug("delete from memcache:" + key);
+		}
+		
+	}
+	
+	@Around (value="execution (* com.yeahwap.netgame.service.UserService.get(int)) && args(id)",argNames="id")
+	private Object getCache(ProceedingJoinPoint pjp, int id) throws Throwable {
+		String key = DEFAULT_PREFIX + id;
+		Object ret = MemcacheUtil.get(key);
+		
+		if (ret == null) {
+			ret = pjp.proceed();
+			
+			if (null != ret) {
+				MemcacheUtil.set(key, DEFAULT_EXPIRE, ret);
+				
+				if (log.isDebugEnabled()) {
+					log.debug("set to memcache:" + key.toString());
+				}
+			}
+		}
+		
+		if (ret != null) {
+			log.debug("get from memcache : " + key.toString());
+		}
+		
+		return ret;
 	}
 }
