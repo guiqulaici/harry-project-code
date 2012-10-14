@@ -16,7 +16,7 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 /**
- * @author bill
+ * @author Harry
  * 
  */
 public class ConditionalBeanDefinitionParser implements BeanDefinitionParser {

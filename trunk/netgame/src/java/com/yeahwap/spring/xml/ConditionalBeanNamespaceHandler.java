@@ -6,7 +6,7 @@ package com.yeahwap.spring.xml;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
 /**
- * @author bill
+ * @author Harry
  * 
  */
 public class ConditionalBeanNamespaceHandler extends NamespaceHandlerSupport {

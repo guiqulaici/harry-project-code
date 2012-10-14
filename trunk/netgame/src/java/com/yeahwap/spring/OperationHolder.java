@@ -1,5 +1,9 @@
 package com.yeahwap.spring;
-
+/**
+ * 
+ * @author Harry
+ *
+ */
 public class OperationHolder {
 
 	public static String READONLY = "readOnly";

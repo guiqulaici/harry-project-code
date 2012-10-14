@@ -7,7 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.spring.GeneralService;
-
+/**
+ * 
+ * @author Harry
+ *
+ */
 @Service
 public class UserService extends GeneralService<User> {
 	@Transactional

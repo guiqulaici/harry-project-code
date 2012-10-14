@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.remoting.caucho.HessianServiceExporter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+/**
+ * 
+ * @author Harry
+ *
+ */
 @Controller
 @RequestMapping("/remoting")
 public class HessianController {

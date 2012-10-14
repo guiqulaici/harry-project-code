@@ -30,7 +30,7 @@ import com.yeahwap.netgame.service.UserService;
  */
 @Controller
 public class UserController {
-	//先名称再按类型装配，这里使用到类型
+	//先名称再按类型装配，这里使用到类型的装配
 	@Resource
 	private UserHessianService userHessianService;
 	@Resource

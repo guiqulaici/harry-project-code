@@ -10,6 +10,11 @@ import com.caucho.hessian.client.HessianConnection;
 import com.caucho.hessian.client.HessianURLConnectionFactory;
 import com.yeahwap.netgame.util.CipherUtil;
 
+/**
+ * 
+ * @author Harry
+ *
+ */
 public class MyHessianConnectionFactory extends HessianURLConnectionFactory {
 	
 	private static final Logger log = Logger.getLogger(MyHessianConnectionFactory.class);
