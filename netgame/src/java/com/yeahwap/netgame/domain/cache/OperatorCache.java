@@ -7,7 +7,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 import com.yeahwap.netgame.util.MemcacheUtil;
-
+/**
+ * 
+ * @author Harry
+ *
+ */
 @Component
 @Aspect
 public class OperatorCache {

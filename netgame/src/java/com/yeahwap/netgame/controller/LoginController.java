@@ -15,10 +15,13 @@ import com.yeahwap.netgame.domain.pojo.Operator;
 import com.yeahwap.netgame.service.OperatorService;
 
 /**
- * 处理后台登录的控制类
+ * Create on 2012-10-10 7:52
  * 
  * @author Harry
- * 
+ *         <ul>
+ *         <li>Title: LoginCntroller.java</li>
+ *         <li>description: 处理后台登录的控制类</li
+ *         </ul>
  */
 
 @Controller
@@ -26,23 +29,22 @@ import com.yeahwap.netgame.service.OperatorService;
 public class LoginController {
 	@Resource
 	private OperatorService operatorService;
-	
+
 	@RequestMapping(value = "login.do", method = RequestMethod.POST, params = {
 			"username", "password" })
 	public String login(@RequestParam("username") String name,
 			@RequestParam("password") String password, ModelMap modelmap) {
 		System.out.println(name + ";" + password);
-		
+
 		// !查询数据库
 		Operator operator = operatorService.get(1);
-		
+
 		List<String> list = new ArrayList<String>();
 		list.add(operator.getName());
 		list.add(operator.getPassword());
 		modelmap.put("return", list);
-		
-		return  "login";
+
+		return "login";
 	}
-	
-	
+
 }
