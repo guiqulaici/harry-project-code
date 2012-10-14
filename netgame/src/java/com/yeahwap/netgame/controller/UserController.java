@@ -14,6 +14,7 @@ import com.yeahwap.netgame.Constants;
 import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.netgame.hessian.UserHessianService;
 import com.yeahwap.netgame.hessian.pojo.UserHessian;
+import com.yeahwap.netgame.service.UserService;
 
 /**
  * Create on 2012-10-13 19:16
@@ -34,9 +35,13 @@ public class UserController {
 	private UserHessianService userHessianService;
 	@Resource
 	private UserHessianService userHessianServiceImpl;
-
+	@Resource 
+	private UserService userService;
+	
+	
 	@RequestMapping(value = "/sdk/userRegister.do", method = RequestMethod.GET, params = {"name", "password" })
 	public String userRegister(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletRequest req) {
+		
 		UserHessian user = new UserHessian();
 		user.setName(name);
 		user.setPassword(password);
