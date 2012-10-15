@@ -57,6 +57,23 @@ public class UserHessianServiceImpl implements UserHessianService {
 	@Override
 	public User update(Serializable obj) {
 		System.out.println("update obj");
-		return null;
+		UserHessian uh = (UserHessian) obj;
+		User user = new User();
+		user.setId(uh.getId());
+		user.setName(uh.getName());
+		user.setPassword(uh.getPassword());
+		user.setInitFromid(uh.getInitFromid());
+		user.setDateline(new Date());
+		user.setMobile(uh.getMobile());
+		user.setEmail(uh.getEmail());
+		user.setScore(uh.getScore());
+		user.setIsview(uh.getIsview());
+		user.setType(uh.getType());
+		user.setWeiboId(uh.getWeiboId());
+		user.setToken(uh.getToken());
+		user.setSecret(uh.getSecret());
+		userService.update(user);
+		
+		return user;
 	}
 }
