@@ -41,4 +41,20 @@ public class UserService extends GeneralService<User> {
 		List<User> list = hibernateTemplate.find(hql, new Object[] { name });
 		return list.size() > 0 ? list.get(0) : null;
 	}
+	
+	@Transactional(readOnly = true)
+	public User getUserByNameAndPassword(String name, String password) {
+		String hql = "from User where name=? and password=?";
+		List<User> list = hibernateTemplate.find(hql, new Object[]{name, password});
+		
+		return list.size() > 0 ? list.get(0) : null;
+	}
+	
+	public static void main(String[] args) {
+		// ApplicationContext ctx = new
+		// ClassPathXmlApplicationContext("applicationContext-hibernate.xml");
+		// UserService us = (UserService) ctx.getBean("userService");
+		// User u = us.getUserByName("harry");
+		// System.out.println(u);
+	}
 }

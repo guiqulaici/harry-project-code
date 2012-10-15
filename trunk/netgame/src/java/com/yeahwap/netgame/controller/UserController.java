@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +25,7 @@ import com.yeahwap.netgame.service.UserService;
  *         <ul>
  *         <li>Title: UserController.java</li>
  *         <li>处理游戏用户的相关操作，针对远程的add和update必须使用getService() 来处理，</li>
- *         <li>针对我们后台的管理，可以注入UserService来处理</li>
+ *         <li>针对我们服务端的管理，可以注入UserService来处理</li>
  *         </ul>
  * 
  */
@@ -38,28 +39,43 @@ public class UserController {
 	@Resource 
 	private UserService userService;
 	
-	
 	@RequestMapping(value = "/sdk/userRegister.do", method = RequestMethod.GET, params = {"name", "password" })
 	public String userRegister(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletRequest req) {
+		// 查看当前注册用户是否已经存在
+		User oldUser = userService.getUserByName(name);
+		User u = null;
 		
-		UserHessian user = new UserHessian();
-		user.setName(name);
-		user.setPassword(password);
-		user.setInitFromid(1);
-		user.setDateline(new Date());
-		user.setMobile("");
-		user.setEmail("");
-		user.setScore(0);
-		user.setIsview(0);
-		user.setType(0);
-		user.setWeiboId("");
-		user.setToken("");
-		user.setSecret("");
-		User u = getService().add(user);
+		if (oldUser == null) {
+			UserHessian user = new UserHessian();
+			user.setName(name);
+			user.setPassword(password);
+			user.setInitFromid(1);
+			user.setDateline(new Date());
+			user.setMobile("");
+			user.setEmail("");
+			user.setScore(0);
+			user.setIsview(0);
+			user.setType(0);
+			user.setWeiboId("");
+			user.setToken("");
+			user.setSecret("");
+			u = getService().add(user);
+		}
+		
 		req.setAttribute("user", u);
 		return "userregister";
 	}
-
+	
+	@RequestMapping("/sdk/userLogin.do")
+	public String userLogin(@RequestParam("name") String name, @RequestParam("password") String password, ModelMap model) {
+		User user = userService.getUserByNameAndPassword(name, password);
+		// model.addObject("user", user);
+		System.out.println("user=" + user);
+		model.put("user", user);
+		
+		return "userlogin";
+	}
+	
 	private UserHessianService getService() {
 		if ("hessian".equals(Constants.METHOD)) {
 			return this.userHessianService;
