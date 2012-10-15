@@ -69,7 +69,8 @@ HessianProxyFactoryBean extends HessianClientInterceptor(里面可以注入Hessi
 		}
 	}
 	
-}
+}搞清楚hessianclient管理的bean的connection proxyfactory factorybean的走向，自己写一个这样的项目
+重写一个hessian的例子，需要添加key和timeout的时间
 
 
 
@@ -100,10 +101,9 @@ HessianProxyFactoryBean extends HessianClientInterceptor(里面可以注入Hessi
 5、
 spring mvc 注解 @requestMapping加URL的"/"和不加"/"的区别
 
-Throwable的含义
+6、Throwable的含义
 
-用@Resoure依赖注入，如果被注入的类没有被管理起来，不调用也不会有问题,也不会报错
+7、用@Resoure依赖注入，如果被注入的类没有被管理起来，不调用也不会有问题,也不会报错
 
-aop环绕通知的pjp.process的含义
-
-重写一个hessian的例子，需要添加key和timeout的时间
+8、aop环绕通知的pjp.process的含义（就是调用被拦截的方法，返回值就是被调用方法的返回值）
+	有时间写一些aop的execution的模式
