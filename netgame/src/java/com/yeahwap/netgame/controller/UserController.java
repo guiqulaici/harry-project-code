@@ -1,6 +1,8 @@
 package com.yeahwap.netgame.controller;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +12,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;// 必须引用此包
 
 import com.yeahwap.netgame.Constants;
 import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.netgame.hessian.UserHessianService;
 import com.yeahwap.netgame.hessian.pojo.UserHessian;
 import com.yeahwap.netgame.service.UserService;
+import com.yeahwap.netgame.util.StringUtil;
 
 /**
  * Create on 2012-10-13 19:16
@@ -74,6 +78,33 @@ public class UserController {
 		model.put("user", user);
 		
 		return "userlogin";
+	}
+	@RequestMapping("/sdk/userUpdate.do")
+	public ModelAndView userUpdate(@RequestParam("oldpassword") String oldpassword, @RequestParam("newpassword") String newpassword, HttpServletRequest request) {
+		int id = StringUtil.getInt(request.getParameter("uid"), 0);
+		String name = request.getParameter("name");
+		User olduser = userService.getUserByIdAndName(id, name, oldpassword);
+		User user = null;
+		if (olduser != null) {
+			UserHessian newuser = new UserHessian();
+			newuser.setName(name);
+			newuser.setPassword(oldpassword);
+			newuser.setInitFromid(1);
+			newuser.setDateline(new Date());
+			newuser.setMobile("");
+			newuser.setEmail("");
+			newuser.setScore(0);
+			newuser.setIsview(0);
+			newuser.setType(0);
+			newuser.setWeiboId("");
+			newuser.setToken("");
+			newuser.setSecret("");
+			user = getService().update(newuser);
+		}
+		
+		Map<String, User> map = new HashMap<String, User>();
+		map.put("user", user);
+		return new ModelAndView("userupdate",map);
 	}
 	
 	private UserHessianService getService() {
