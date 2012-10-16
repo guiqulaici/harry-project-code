@@ -70,15 +70,18 @@ public class UserController {
 		return "userregister";
 	}
 	
-	@RequestMapping("/sdk/userLogin.do")
-	public String userLogin(@RequestParam("name") String name, @RequestParam("password") String password, ModelMap model) {
+	@RequestMapping(value = "/sdk/userLogin.do", method = RequestMethod.GET, params = {"name", "password" })
+	public String userLogin(@RequestParam("name") String name,
+			@RequestParam("password") String password, ModelMap model) {
 		User user = userService.getUserByNameAndPassword(name, password);
 		// model.addObject("user", user);
 		System.out.println("user=" + user);
 		model.put("user", user);
-		
+
 		return "userlogin";
 	}
+	
+	
 	@RequestMapping("/sdk/userUpdate.do")
 	public ModelAndView userUpdate(@RequestParam("oldpassword") String oldpassword, @RequestParam("newpassword") String newpassword, HttpServletRequest request) {
 		int id = StringUtil.getInt(request.getParameter("uid"), 0);
