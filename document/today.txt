@@ -4,58 +4,6 @@ XML:可以随意定义，这是最本质的东西，比如橡皮泥，可以理�
 DTD：约束XML而存在的(说白了就是xml加上某些规范后的xml)，比如DTD说，橡皮泥，必须有颜色和产地，纳闷XML中就必须给橡皮泥添加颜色和产地，XSD跟DTD一样，只不过比XSD方便
 XSL：你的想法，你可以拿XML橡皮泥做什么，比如我可以做成猫，也可以做成狗
 
-ant脚本：
-<copy todir="${classes}">
-	<fileset dir="${src}">
-	ant的这种复制，不只是复制单个文件，还复制了文件的路径,就是包括当前文件所在的文件夹都一起复制过去了
-		<include name="**/*.xml"/>
-		<include name="**/*.txt"/>
-		<include name="**/*.handlers" />
-		<include name="**/*.schemas" />
-		<include name="**/*.xsd"/>
-	</fileset>
-</copy>
-
-
-
-2、ant在使用javac的时候如果依赖其他的包，那么我们需要将所用包也引用过去，否则不能javac编译
-<path id="lib.class.path">
-	<fileset dir="${lib.dir}">
-		<include name="**/*.jar" />
-	</fileset>
-	<!-- <pathelement path="${build.dir}" /> -->
-</path>
-
-<target name="compiler" depends="version" description="编译src/java的java文件">
-	<mkdir dir="${classes}"/>
-	<mkdir dir="${dest}"/>
-	
-	<javac destdir="${classes}" encoding="UTF-8" source="1.6" debug="true" includeantruntime="false">
-		<src path="${src}"></src>
-		<!-- 引用依赖包 -->
-		<classpath refid="lib.class.path" />
-	</javac>
-	
-	<copy file="${conf}/log4j-linux.properties" tofile="${classes}/log4j.properties"></copy>
-	<copy file="${conf}/config-linux.properties" tofile="${classes}/config.properties"></copy>
-	
-	<copy todir="${classes}">
-		<fileset dir="${src}">
-			<include name="**/*.xml"/>
-			<include name="**/*.txt"/>
-			<include name="**/*.handlers" />
-			<include name="**/*.schemas" />
-			<include name="**/*.xsd"/>
-		</fileset>
-	</copy>
-</target>
-
-
-
-
-
-
-
 
 
 3、hessian的配置，在配置客户端的时候，可以重写HessianProxyFactory和ConnectionFactory来添加timeout等参数以及增加调用的安全性(参考netgame的配置，polit_rmi union2的配置，自己从新写个项目)
@@ -73,37 +21,10 @@ HessianProxyFactoryBean extends HessianClientInterceptor(里面可以注入Hessi
 重写一个hessian的例子，需要添加key和timeout的时间
 
 
-
-
-
-4、springmvc 中的控制层的@RequestMapping("/sdk")是匹配web.xml中servlet，<url-pattern>/sdk/*</url-pattern>除去/sdk/之后剩余的url来匹配的
-比如：http://localhost:8080/netgamesdk/sdk/userRegist.do可以以匹配/sdk/*,被匹配之后剩下的链接是/userRegist.do再次与requestMapping匹配
-
-<servlet>
-	<servlet-name>springmanager</servlet-name>
-	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-	<init-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring-sdk-servlet.xml</param-value>
-	</init-param>
-	<load-on-startup>1</load-on-startup>
-</servlet>
-
-<!--requetRampping是的匹配时根据/sdk/*完全匹配到剩余的url去匹配的 -->
-<servlet-mapping>
-	<servlet-name>springmanager</servlet-name>
-	<!-- url-pattern不要使用/*，否则serlvet出问题，/*和/我认为是一样的 -->
-	<url-pattern>/sdk/*</url-pattern>
-</servlet-mapping>
-
-
-
-5、
-spring mvc 注解 @requestMapping加URL的"/"和不加"/"的区别
+5、spring mvc 注解 @requestMapping加URL的"/"和不加"/"的区别
 
 6、Throwable的含义
 
-7、用@Resoure依赖注入，如果被注入的类没有被管理起来，不调用也不会有问题,也不会报错
+7、用@Resoure依赖注入，如果被注入的类没有被管理起来，不调用也不会有问题,也不会报错(写例子测试一下)
 
-8、aop环绕通知的pjp.process的含义（就是调用被拦截的方法，返回值就是被调用方法的返回值）
-	有时间写一些aop的execution的模式
+8、aop环绕通知的pjp.process的含义（就是调用被拦截的方法，返回值就是被调用方法的返回值）有时间写一些aop的execution的模式
