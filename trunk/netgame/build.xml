@@ -54,7 +54,7 @@
 		</copy>
 	</target>
 	
-	<target name="test-all" depends="test-netgamesdk, test-admin, test-hessian">
+	<target name="test-all" depends="test-netgamesdk, test-admin, test-hessian" description="将所有的项目打包">
 		<echo message="打包所有的项目" />
 	</target>
 	
