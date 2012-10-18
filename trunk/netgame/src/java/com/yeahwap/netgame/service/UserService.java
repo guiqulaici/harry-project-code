@@ -1,5 +1,6 @@
 package com.yeahwap.netgame.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -22,17 +23,14 @@ public class UserService extends GeneralService<User> {
 	@Transactional
 	public int add(User u) {
 		int id = super.add(u);
-		System.out.println("u=" + u.getId());
 		return id;
 	}
 
 	@Transactional
 	public void update(User u) {
-		User oldUser = get(u.getId());
-		if (oldUser != null) {
-			super.update(u);
-			log.debug("change user for uid is " + u.getId());
-		}
+		u.setDateline(new Date());
+		hibernateTemplate.update(u);
+		log.debug("change user for uid is " + u.getId());
 	}
 	
 	@Transactional(readOnly = true)
@@ -66,11 +64,21 @@ public class UserService extends GeneralService<User> {
 		return list.size() > 0 ? list.get(0) : null;
 	}
 	
+	@Transactional(readOnly = true)
+	public User getUserByNameAndEmail(String name, String email) {
+		String hql = "from User where name=? and email=?";
+		List<User> list = hibernateTemplate.find(hql, new Object[] { name, email });
+		return list.size() > 0 ? list.get(0) : null;
+	}
+	
 	public static void main(String[] args) {
-		// ApplicationContext ctx = new
-		// ClassPathXmlApplicationContext("applicationContext-hibernate.xml");
-		// UserService us = (UserService) ctx.getBean("userService");
-		// User u = us.getUserByName("harry");
-		// System.out.println(u);
+//		 ApplicationContext ctx = new
+//		 ClassPathXmlApplicationContext("applicationContext-hibernate.xml");
+//		 UserService us = (UserService) ctx.getBean("userService");
+//		 User u = us.getUserByName("harry");
+//		 // System.out.println(u);
+//		 u.setName("abc");
+//		 u.setEmail("harry@yeahwap.com");
+//		 us.update(u);
 	}
 }
