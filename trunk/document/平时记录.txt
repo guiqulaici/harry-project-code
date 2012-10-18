@@ -267,6 +267,8 @@ replicate-ignore-db=需要复制的数据库名，如果复制多个数据库，
 	spring mvc 的方法中用request.setAtt(xxx,xxx)在jsp页面上也可以用el表达式获取
 
 
+57、事务和锁
+动态和静态的include
 
 
 
