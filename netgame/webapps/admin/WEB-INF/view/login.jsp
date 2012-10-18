@@ -22,6 +22,15 @@
 				</td>
 			</tr>
 		</c:forEach>
+		
+		<c:forEach items="${aaa}" var="ddd">
+			<tr>
+				<td>
+					<c:out value="${rr}"></c:out>
+					${ddd}
+				</td>
+			</tr>
+		</c:forEach>
 	</table>
 </body>
 </html>

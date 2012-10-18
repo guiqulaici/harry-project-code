@@ -1,7 +1,9 @@
 package com.yeahwap.netgame.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +12,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.yeahwap.netgame.domain.pojo.Operator;
 import com.yeahwap.netgame.service.OperatorService;
@@ -32,7 +35,7 @@ public class LoginController {
 
 	@RequestMapping(value = "login.do", method = RequestMethod.POST, params = {
 			"username", "password" })
-	public String login(@RequestParam("username") String name,
+	public ModelAndView login(@RequestParam("username") String name,
 			@RequestParam("password") String password, ModelMap modelmap) {
 		System.out.println(name + ";" + password);
 
@@ -42,9 +45,21 @@ public class LoginController {
 		List<String> list = new ArrayList<String>();
 		list.add(operator.getName());
 		list.add(operator.getPassword());
-		modelmap.put("return", list);
-
-		return "login";
+		ModelAndView mav = new ModelAndView();
+		
+		mav.setViewName("login");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("return", list);
+		
+		List<String> list1 = new ArrayList<String>();
+		list1.add("c");
+		list1.add("d");
+		map.put("aaa", list1);
+		mav.addAllObjects(map);
+		
+		
+		return mav;
 	}
 
 }

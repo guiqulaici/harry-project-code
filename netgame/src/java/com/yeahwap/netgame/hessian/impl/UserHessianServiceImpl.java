@@ -1,7 +1,6 @@
 package com.yeahwap.netgame.hessian.impl;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.annotation.Resource;
 
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.netgame.hessian.UserHessianService;
-import com.yeahwap.netgame.hessian.pojo.UserHessian;
 import com.yeahwap.netgame.service.UserService;
 
 /**
@@ -30,20 +28,7 @@ public class UserHessianServiceImpl implements UserHessianService {
 	@Override
 	public User add(Serializable obj) {
 		System.out.println("add obj");
-		UserHessian uh = (UserHessian) obj;
-		User user = new User();
-		user.setName(uh.getName());
-		user.setPassword(uh.getPassword());
-		user.setInitFromid(uh.getInitFromid());
-		user.setDateline(new Date());
-		user.setMobile(uh.getMobile());
-		user.setEmail(uh.getEmail());
-		user.setScore(uh.getScore());
-		user.setIsview(uh.getIsview());
-		user.setType(uh.getType());
-		user.setWeiboId(uh.getWeiboId());
-		user.setToken(uh.getToken());
-		user.setSecret(uh.getSecret());
+		User user = (User) obj;
 		int uid = userService.add(user);
 		
 		if(uid > 0) {
@@ -57,23 +42,8 @@ public class UserHessianServiceImpl implements UserHessianService {
 	@Override
 	public User update(Serializable obj) {
 		System.out.println("update obj");
-		UserHessian uh = (UserHessian) obj;
-		User user = new User();
-		user.setId(uh.getId());
-		user.setName(uh.getName());
-		user.setPassword(uh.getPassword());
-		user.setInitFromid(uh.getInitFromid());
-		user.setDateline(new Date());
-		user.setMobile(uh.getMobile());
-		user.setEmail(uh.getEmail());
-		user.setScore(uh.getScore());
-		user.setIsview(uh.getIsview());
-		user.setType(uh.getType());
-		user.setWeiboId(uh.getWeiboId());
-		user.setToken(uh.getToken());
-		user.setSecret(uh.getSecret());
-		userService.update(user);
-		
-		return user;
+		User u = (User) obj;
+		userService.update(u);
+		return u;
 	}
 }

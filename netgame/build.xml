@@ -52,6 +52,16 @@
 		</copy>
 	</target>
 	
+	
+	<!-- depends="version, jar" -->
+	<target name="test-netgamesdk"  description="将netgamesdk编译成webapps">
+		<copy todir="${dest}/netgamesdk" >
+			<fileset dir="webapps/netgamesdk">
+				<exclude name="**/*.bak"/>
+			</fileset>
+		</copy>
+	</target>
+	
 	<target name="clean" description="删除所有的打包文件">
 		<delete dir="build"></delete>
 		<delete dir="${dest}"></delete>

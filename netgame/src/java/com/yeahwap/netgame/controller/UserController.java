@@ -17,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;// 必须引用此包
 import com.yeahwap.netgame.Constants;
 import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.netgame.hessian.UserHessianService;
-import com.yeahwap.netgame.hessian.pojo.UserHessian;
 import com.yeahwap.netgame.service.UserService;
 import com.yeahwap.netgame.util.StringUtil;
 
@@ -44,13 +43,16 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/sdk/userRegister.do", method = RequestMethod.GET, params = {"name", "password" })
-	public String userRegister(@RequestParam("name") String name, @RequestParam("password") String password, HttpServletRequest req) {
+	public String userRegister(
+			@RequestParam("name") String name,
+			@RequestParam("password") String password, 
+			HttpServletRequest req) {
 		// 查看当前注册用户是否已经存在
 		User oldUser = userService.getUserByName(name);
 		User u = null;
-		
+
 		if (oldUser == null) {
-			UserHessian user = new UserHessian();
+			User user = new User();
 			user.setName(name);
 			user.setPassword(password);
 			user.setInitFromid(1);
@@ -65,50 +67,68 @@ public class UserController {
 			user.setSecret("");
 			u = getService().add(user);
 		}
-		
+
 		req.setAttribute("user", u);
 		return "userregister";
 	}
 	
 	@RequestMapping(value = "/sdk/userLogin.do", method = RequestMethod.GET, params = {"name", "password" })
-	public String userLogin(@RequestParam("name") String name,
-			@RequestParam("password") String password, ModelMap model) {
+	public String userLogin(
+			@RequestParam("name") String name,
+			@RequestParam("password") String password, 
+			ModelMap model) {
 		User user = userService.getUserByNameAndPassword(name, password);
-		// model.addObject("user", user);
-		System.out.println("user=" + user);
 		model.put("user", user);
-
 		return "userlogin";
 	}
 	
-	
 	@RequestMapping("/sdk/userUpdate.do")
-	public ModelAndView userUpdate(@RequestParam("oldpassword") String oldpassword, @RequestParam("newpassword") String newpassword, HttpServletRequest request) {
-		int id = StringUtil.getInt(request.getParameter("uid"), 0);
-		String name = request.getParameter("name");
+	public ModelAndView userUpdate(
+			@RequestParam("oldpassword") String oldpassword,
+			@RequestParam("newpassword") String newpassword,
+			@RequestParam("uid") String uid, 
+			@RequestParam("name") String name,
+			HttpServletRequest request) {
+		int id = StringUtil.getInt(uid, 0);
 		User olduser = userService.getUserByIdAndName(id, name, oldpassword);
 		User user = null;
-		if (olduser != null) {
-			UserHessian newuser = new UserHessian();
-			newuser.setName(name);
-			newuser.setPassword(oldpassword);
-			newuser.setInitFromid(1);
-			newuser.setDateline(new Date());
-			newuser.setMobile("");
-			newuser.setEmail("");
-			newuser.setScore(0);
-			newuser.setIsview(0);
-			newuser.setType(0);
-			newuser.setWeiboId("");
-			newuser.setToken("");
-			newuser.setSecret("");
-			user = getService().update(newuser);
-		}
 		
+		if (olduser != null) {
+			if (!oldpassword.equals(newpassword)) {
+				olduser.setPassword(newpassword);
+			} else {
+				olduser.setPassword(oldpassword);
+			}
+
+			olduser.setInitFromid(1);
+			olduser.setDateline(new Date());
+			olduser.setMobile("");
+			olduser.setEmail("");
+			olduser.setScore(0);
+			olduser.setIsview(0);
+			olduser.setType(0);
+			olduser.setWeiboId("");
+			olduser.setToken("");
+			olduser.setSecret("");
+			user = getService().update(olduser);
+		}
+
 		Map<String, User> map = new HashMap<String, User>();
 		map.put("user", user);
-		return new ModelAndView("userupdate",map);
+		return new ModelAndView("userupdate", map);
 	}
+	
+	@RequestMapping(value = "/sdk/userFind.do", params = { "name", "email" }, method = RequestMethod.GET)
+	public ModelAndView userFind(
+			@RequestParam("name") String name,
+			@RequestParam("email") String email) {
+		User user = userService.getUserByNameAndEmail(name, email);
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("user", user);
+		mav.setViewName("userfindpassword");
+		return mav;
+	}
+	
 	
 	private UserHessianService getService() {
 		if ("hessian".equals(Constants.METHOD)) {
@@ -121,4 +141,6 @@ public class UserController {
 
 		return null;
 	}
+	
+	
 }
