@@ -38,7 +38,6 @@ public class LoginController {
 	public ModelAndView login(@RequestParam("username") String name,
 			@RequestParam("password") String password, ModelMap modelmap) {
 		System.out.println(name + ";" + password);
-
 		// !查询数据库
 		Operator operator = operatorService.get(1);
 
