@@ -3,20 +3,17 @@ package com.harry.test;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
-
-
-
 public class Test {
-	//private final static Logger REVENUEDATELOG = Logger.getLogger("revenueDataLogHarry");
-	// private final static Logger log = Logger.getLogger(Test.class);
-	
 	public static void main(String[] args) {
-		String url = "xxxx/sss/aaaa";
-		System.out.println(url.substring(url.lastIndexOf("/")));
+		String str = " dsfad dafd 	afda ";
+		String dest = "";
+		if (str != null) {
+			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+			Matcher m = p.matcher(str);
+			dest = m.replaceAll("");
+		}
+		System.out.println(dest);
+
 	}
-	
-	private static void p(Object o) {
-		System.out.println(o);
-	}
+
 }
