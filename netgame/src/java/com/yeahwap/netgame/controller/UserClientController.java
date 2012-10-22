@@ -11,14 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yeahwap.netgame.Constants;
 import com.yeahwap.netgame.domain.pojo.User;
+import com.yeahwap.netgame.hessian.AccessHessianService;
 import com.yeahwap.netgame.hessian.UserHessianService;
+import com.yeahwap.netgame.hessian.domain.AccessLogType;
+import com.yeahwap.netgame.hessian.domain.pojo.AccessLog;
 import com.yeahwap.netgame.service.UserService;
+import com.yeahwap.netgame.util.HttpUtil;
 import com.yeahwap.netgame.util.StringUtil;
 
 /**
@@ -41,6 +46,11 @@ public class UserClientController {
 	@Resource
 	private UserHessianService userHessianServiceImpl;
 	@Resource
+	private AccessHessianService accessHessianService;
+	@Resource
+	private AccessHessianService accessHessianServiceImpl;
+	
+	@Resource
 	private UserService userService;
 
 	@RequestMapping(value = "/userRegister.do", params = { "name", "password",
@@ -48,8 +58,16 @@ public class UserClientController {
 	public String userRegister(@RequestParam("name") String name,
 			@RequestParam("password") String password,
 			@RequestParam("initFromid") String initFromid,
-			HttpServletRequest req) {
-		
+			HttpServletRequest req, @RequestHeader("header-valid") String key) {
+		// Enumeration enumeration = req.getHeaderNames();
+		// while(enumeration.hasMoreElements()) {
+		// String headName = (String) enumeration.nextElement();
+		// System.out.println(headName + ":" + req.getHeader(headName));
+		// }
+		if (!Constants.HEADER_VALID.equals(key)) {
+			return "redirect:error";
+		}
+
 		User oldUser = userService.getUserByName(vaild(name));
 		User u = null;
 
@@ -73,29 +91,32 @@ public class UserClientController {
 			user.setToken("");
 			user.setSecret("");
 			u = getService().add(user);
+			AccessLog log = getAccessLog(u.getId(), AccessLogType.REGISTER, initFromId, req);
+			getAccessService().add(log);
 		}
-
+		
 		req.setAttribute("user", u);
 		return "userregister";
-	}
-
-	private String vaild(String str) {
-		String dest = "";
-		if (str != null) {
-			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-			Matcher m = p.matcher(str);
-			dest = m.replaceAll("");
-		}
-		System.out.println(dest);
-		return dest.toLowerCase();
 	}
 
 	@RequestMapping(value = "/userLogin.do", params = { "name", "password",
 			"fromid" })
 	public String userLogin(@RequestParam("name") String name,
 			@RequestParam("password") String password,
-			@RequestParam("fromid") String fromid, ModelMap model) {
+			@RequestParam("fromid") String fromid, ModelMap model,
+			@RequestHeader("header-valid") String key, HttpServletRequest request) {
+		
+		if (!Constants.HEADER_VALID.equals(key)) {
+			return "redirect:error";
+		}
+
 		User user = userService.getUserByNameAndPassword(vaild(name), vaild(password));
+		
+		if (user != null) {
+			AccessLog log = getAccessLog(user.getId(), AccessLogType.LOGIN, StringUtil.getInt(fromid, 0), request);
+			getAccessService().add(log);
+		}
+		
 		model.put("user", user);
 		return "userlogin";
 	}
@@ -104,9 +125,16 @@ public class UserClientController {
 	public ModelAndView userUpdate(@RequestParam("uid") String uid,
 			@RequestParam("name") String name,
 			@RequestParam("oldpassword") String oldpassword,
-			@RequestParam("fromid") String fromid, HttpServletRequest request) {
+			@RequestParam("fromid") String fromid, HttpServletRequest request,
+			@RequestHeader("header-valid") String key) {
+
+		if (!Constants.HEADER_VALID.equals(key)) {
+			return new ModelAndView("error");
+		}
+
 		int id = StringUtil.getInt(uid, 0);
-		User olduser = userService.getUserByIdAndName(id, vaild(name), vaild(oldpassword));
+		User olduser = userService.getUserByIdAndName(id, vaild(name),
+				vaild(oldpassword));
 		User user = null;
 		String newpassword = request.getParameter("newpassword");
 
@@ -123,6 +151,9 @@ public class UserClientController {
 			olduser.setToken("");
 			olduser.setSecret("");
 			user = getService().update(olduser);
+			
+			AccessLog log = getAccessLog(user.getId(), AccessLogType.UPDATE, StringUtil.getInt(fromid, 0), request);
+			getAccessService().add(log);
 		}
 
 		Map<String, User> map = new HashMap<String, User>();
@@ -133,9 +164,20 @@ public class UserClientController {
 	@RequestMapping(value = "/userFind.do", params = { "name", "email" })
 	public ModelAndView userFind(@RequestParam("name") String name,
 			@RequestParam("email") String email,
-			@RequestParam("fromid") String fromid) {
+			@RequestParam("fromid") String fromid,
+			@RequestHeader("header-valid") String key, HttpServletRequest request) {
+
+		if (!Constants.HEADER_VALID.equals(key)) {
+			return new ModelAndView("error");
+		}
 
 		User user = userService.getUserByNameAndEmail(vaild(name), email);
+		
+		if (user != null) {
+			AccessLog log = getAccessLog(user.getId(), AccessLogType.FIND, StringUtil.getInt(fromid, 0), request);
+			getAccessService().add(log);
+		}
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("user", user);
 		mav.setViewName("userfindpassword");
@@ -153,4 +195,44 @@ public class UserClientController {
 
 		return null;
 	}
+	
+	private AccessHessianService getAccessService() {
+		if ("hessian".equals(Constants.METHOD)) {
+			return this.accessHessianService;
+		}
+
+		if ("local".equals(Constants.METHOD)) {
+			return this.accessHessianServiceImpl;
+		}
+		return null;
+	}
+
+	@RequestMapping(value = "/error")
+	public String returnError() {
+		System.out.println("1");
+		return "error";
+	}
+	
+	private String vaild(String str) {
+		String dest = "";
+		if (str != null) {
+			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+			Matcher m = p.matcher(str);
+			dest = m.replaceAll("");
+		}
+		return dest.toLowerCase();
+	}
+	
+
+	private AccessLog getAccessLog(int uid, byte type, int fromid, HttpServletRequest request) {
+		AccessLog log = new AccessLog();
+		log.setUid(uid);
+		log.setFromid(fromid);
+		log.setIp(HttpUtil.getRemoteIP(request));
+		log.setMobile(request.getParameter("mobile"));
+		log.setAccessTime(new Date());
+		log.setType(type);
+		return log;
+	}
+
 }

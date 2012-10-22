@@ -12,4 +12,10 @@
 		<property name="service" ref="userHessianServiceImpl" />
 		<property name="serviceInterface" value="com.yeahwap.netgame.hessian.UserHessianService" />
 	</bean>
+	
+	<!-- 日志记录 -->
+	<bean id="accessHessianServer" class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="accessHessianServiceImpl" />
+		<property name="serviceInterface" value="com.yeahwap.netgame.hessian.AccessHessianService" />
+	</bean>
 </beans>

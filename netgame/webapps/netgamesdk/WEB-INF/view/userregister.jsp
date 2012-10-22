@@ -19,7 +19,7 @@
 			"secret" : "${user.secret}"<br/>
 		</c:when>
 		<c:otherwise>
-			"id" : 0					
+			"return" : "1001"			
 		</c:otherwise>
 	</c:choose>
 }<br/>
