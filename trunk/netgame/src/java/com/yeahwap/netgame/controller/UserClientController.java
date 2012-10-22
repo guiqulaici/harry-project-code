@@ -3,6 +3,8 @@ package com.yeahwap.netgame.controller;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -38,75 +40,80 @@ public class UserClientController {
 	private UserHessianService userHessianService;
 	@Resource
 	private UserHessianService userHessianServiceImpl;
-	@Resource 
+	@Resource
 	private UserService userService;
-	
+
 	@RequestMapping(value = "/userRegister.do", params = { "name", "password",
-			"initFromid", "email", "type" })
-	public String userRegister(
-			@RequestParam("name") String name,
+			"initFromid" })
+	public String userRegister(@RequestParam("name") String name,
 			@RequestParam("password") String password,
 			@RequestParam("initFromid") String initFromid,
-			@RequestParam("email") String email,
-			@RequestParam("type") String type,
 			HttpServletRequest req) {
-		User oldUser = userService.getUserByName(name);
+		
+		User oldUser = userService.getUserByName(vaild(name));
 		User u = null;
 
-		if (password == null || ("").equals(password)) {
+		if (password == null || ("").equals(vaild(password))) {
 			password = "123456";
 		}
 
 		if (oldUser == null) {
 			User user = new User();
-			user.setName(name);
-			user.setPassword(password);
-			int initFromId = StringUtil.getInt(initFromid,0);
+			user.setName(vaild(name));
+			user.setPassword(vaild(password));
+			int initFromId = StringUtil.getInt(initFromid, 0);
 			user.setInitFromid(initFromId);
 			user.setDateline(new Date());
 			user.setMobile(req.getParameter("mobile"));
 			user.setEmail(req.getParameter("email"));
 			user.setScore(0);
 			user.setIsview(0);
-			user.setType(StringUtil.getInt(type, 0));
-			user.setWeiboId(req.getParameter("weiboId"));
-			user.setToken(req.getParameter("token"));
-			user.setSecret(req.getParameter("secret"));
+			user.setType(1);
+			user.setWeiboId("");
+			user.setToken("");
+			user.setSecret("");
 			u = getService().add(user);
 		}
 
 		req.setAttribute("user", u);
 		return "userregister";
 	}
-	
-	@RequestMapping(value = "/userLogin.do",  params = {"name", "password", "fromid" })
-	public String userLogin(
-			@RequestParam("name") String name,
+
+	private String vaild(String str) {
+		String dest = "";
+		if (str != null) {
+			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+			Matcher m = p.matcher(str);
+			dest = m.replaceAll("");
+		}
+		System.out.println(dest);
+		return dest.toLowerCase();
+	}
+
+	@RequestMapping(value = "/userLogin.do", params = { "name", "password",
+			"fromid" })
+	public String userLogin(@RequestParam("name") String name,
 			@RequestParam("password") String password,
-			@RequestParam("fromid") String fromid,
-			ModelMap model) {
-		User user = userService.getUserByNameAndPassword(name, password);
+			@RequestParam("fromid") String fromid, ModelMap model) {
+		User user = userService.getUserByNameAndPassword(vaild(name), vaild(password));
 		model.put("user", user);
 		return "userlogin";
 	}
-	
+
 	@RequestMapping("/userUpdate.do")
-	public ModelAndView userUpdate(
-			@RequestParam("oldpassword") String oldpassword,
-			@RequestParam("uid") String uid, 
+	public ModelAndView userUpdate(@RequestParam("uid") String uid,
 			@RequestParam("name") String name,
-			@RequestParam("fromid") String fromid,
-			HttpServletRequest request) {
+			@RequestParam("oldpassword") String oldpassword,
+			@RequestParam("fromid") String fromid, HttpServletRequest request) {
 		int id = StringUtil.getInt(uid, 0);
-		User olduser = userService.getUserByIdAndName(id, name, oldpassword);
+		User olduser = userService.getUserByIdAndName(id, vaild(name), vaild(oldpassword));
 		User user = null;
 		String newpassword = request.getParameter("newpassword");
-		
+
 		if (olduser != null) {
-			if (newpassword != null && !("").equals(newpassword) && !oldpassword.equals(newpassword)) {
-				olduser.setPassword(newpassword);
-			} else {
-				olduser.setPassword(oldpassword);
+			if (newpassword != null && !("").equals(newpassword)
+					&& !oldpassword.equals(newpassword)) {
+				olduser.setPassword(vaild(newpassword));
 			}
 
 			olduser.setDateline(new Date());
@@ -122,20 +129,19 @@ public class UserClientController {
 		map.put("user", user);
 		return new ModelAndView("userupdate", map);
 	}
-	
+
 	@RequestMapping(value = "/userFind.do", params = { "name", "email" })
-	public ModelAndView userFind(
-			@RequestParam("name") String name,
+	public ModelAndView userFind(@RequestParam("name") String name,
 			@RequestParam("email") String email,
 			@RequestParam("fromid") String fromid) {
-		
-		User user = userService.getUserByNameAndEmail(name, email);
+
+		User user = userService.getUserByNameAndEmail(vaild(name), email);
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("user", user);
 		mav.setViewName("userfindpassword");
 		return mav;
 	}
-	
+
 	private UserHessianService getService() {
 		if ("hessian".equals(Constants.METHOD)) {
 			return this.userHessianService;

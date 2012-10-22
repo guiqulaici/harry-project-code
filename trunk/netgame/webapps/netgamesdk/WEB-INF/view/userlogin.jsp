@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c" %>
-<!-- http://localhost:8080/netgamesdk/sdk/userLogin.do?name=xxx&password=xxx -->
+<!-- http://localhost:8080/netgamesdk/sdk/userLogin.do?name=Harry Ye&password=123456&fromid=1 -->
 {<br/>
 	<c:choose>
 		<c:when test="${user != null}">
