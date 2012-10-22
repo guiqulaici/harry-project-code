@@ -27,4 +27,10 @@
 		<property name="serviceUrl" value="${hessian.client.url}/userHessianService"></property>
 		<property name="serviceInterface" value="com.yeahwap.netgame.hessian.UserHessianService"></property>
 	</bean>
+	
+	<bean id="accessHessianService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="proxyFactory" ref="myHessianProxyFactory" />
+		<property name="serviceUrl" value="${hessian.client.url}/accessHessianService"></property>
+		<property name="serviceInterface" value="com.yeahwap.netgame.hessian.AccessHessianService"></property>
+	</bean>
 </beans>

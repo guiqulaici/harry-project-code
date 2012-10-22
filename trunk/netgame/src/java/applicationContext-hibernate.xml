@@ -101,6 +101,12 @@
 		class="org.springframework.orm.hibernate3.HibernateTemplate"
 		p:sessionFactory-ref="sessionFactory" />	
 	
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="50" />
+	</bean>
+	
 	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
 	
 	<context:component-scan base-package="com.yeahwap.netgame.service"></context:component-scan>

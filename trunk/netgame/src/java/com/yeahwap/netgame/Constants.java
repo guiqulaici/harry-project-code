@@ -14,4 +14,9 @@ import com.yeahwap.netgame.util.PropertyUtil;
 public class Constants {
 	public static final String CACHE_ADDRESS = PropertyUtil.getProperty("cache.address");
 	public static final String METHOD = PropertyUtil.getProperty("method");
+	public static final String HEADER_VALID = PropertyUtil.getProperty("header.valid");
+	public static final int LOG_BATCH_SIZE = Integer.parseInt(PropertyUtil.getProperty("log.batch.size"));
+	public static final int LOG_TIMEOUT = Integer.parseInt(PropertyUtil.getProperty("log.batch.timeout"));
+	
+	
 }

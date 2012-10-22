@@ -20,6 +20,13 @@
 	
 	<mvc:annotation-driven/>
 	
+	<!--<mvc:interceptors>
+		<mvc:interceptor>
+				<mvc:mapping path="/sdk/*"/>
+				<bean class="com.yeahwap.netgame.interceptor."/>	
+		</mvc:interceptor>
+	</mvc:interceptors>-->
+	
 	<mvc:default-servlet-handler/>
 	
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
