@@ -17,9 +17,8 @@ if (acceptHeader.indexOf("application/vnd.wap.xhtml+xml") != -1){
 	<title>手机支付</title>
 </head>
 <body>
-<embed type="application/x-unionpayplugin" uc_plugin_id="unionpay" height="53" width="178" 
-paydata="ResultURL=http%3A%2F%2F218.80.192.213%3A1725%2Fclsun%2Fresult%3Fid%3D, UseTestMode=true, SpId=0009, SysProvide=00000002, TransCurrency=156, SubmitTime=20120216102552, Type=Purchase.MARsp, OrderId=00002158, MerchantName=商户仿真, Signature=197d29ad957dabef89d13d132af4287c98d1b2c774f370e7761b30d2d03dc0216fbf8aa801b0c4c5e8306f1ba27e4a9c8b1f724f579e072f25a5606105a8d9557a50596d7ef387700250476e83ddb98a4999004c26d3d19ec17c885053ae00748dd8d11602aa5e66f62f98ea6d823a986e6e527c0931f11d277b176dbc358667, ServiceInfo=PA08000#, TerminalId=01042900, TransAmount=000000001201, MerchantId=104290073929901, MerchantCountry=156, OrderContent=鸡蛋">
-</embed>
+<!--支付接口: http://pay3.shenzhoufu.com/interface/version3/serverconnszx/entry-noxml.aspx -->
+
 </body>
 </html>
 
