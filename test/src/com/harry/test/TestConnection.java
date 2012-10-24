@@ -10,7 +10,11 @@ public class TestConnection {
 	public static void main(String[] args) {
 		
 		try {
-			URL url = new URL("http://localhost:8080/netgamesdk/sdk/userLogin.do?name=HarryYe&password=654321&fromid=1");
+			String url1 = "http://localhost:8080/netgamesdk/sdk/userRegister.do?name=HarryLei&password=123456&initFromid=1&mobile=AAAABBBBB&phone=13631375979";
+			String url2 = "http://localhost:8080/netgamesdk/sdk/userLogin.do?name=HarryYe&password=123456&fromid=1";
+			String url3 = "http://localhost:8080/netgamesdk/sdk/userUpdate.do?name=HarryYe&oldpassword=123456&newpassword=654321&uid=1&fromid=10&mobile=AAABBB&phone=13512765966";
+			String url4 = "http://localhost:8080/netgamesdk/sdk/userFind.do?name=HarryYe&email=harry@yeahwap.com&fromid=1";
+			URL url = new URL(url4);
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			conn.setRequestProperty("header-valid", "yeahwap");
 			InputStream is = conn.getInputStream();

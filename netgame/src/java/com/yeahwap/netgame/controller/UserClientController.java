@@ -82,7 +82,7 @@ public class UserClientController {
 			int initFromId = StringUtil.getInt(initFromid, 0);
 			user.setInitFromid(initFromId);
 			user.setDateline(new Date());
-			user.setMobile(req.getParameter("mobile"));
+			user.setPhone(req.getParameter("phone"));
 			user.setEmail(req.getParameter("email"));
 			user.setScore(0);
 			user.setIsview(0);
@@ -145,7 +145,7 @@ public class UserClientController {
 			}
 
 			olduser.setDateline(new Date());
-			olduser.setMobile(request.getParameter("mobile"));
+			olduser.setPhone(request.getParameter("phone"));
 			olduser.setEmail(request.getParameter("email"));
 			olduser.setWeiboId("");
 			olduser.setToken("");
