@@ -37,8 +37,8 @@ public class User implements java.io.Serializable {
 	@Column(name = "dateline", nullable = false)
 	private Date dateline;
 
-	@Column(name = "mobile", nullable = true, length = 50)
-	private String mobile;
+	@Column(name = "phone", nullable = true, length = 50)
+	private String Phone;
 
 	@Column(name = "email", nullable = true, length = 100)
 	private String email;
@@ -101,12 +101,12 @@ public class User implements java.io.Serializable {
 		this.dateline = dateline;
 	}
 
-	public String getMobile() {
-		return mobile;
+	public String getPhone() {
+		return Phone;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public void setPhone(String phone) {
+		Phone = phone;
 	}
 
 	public String getEmail() {

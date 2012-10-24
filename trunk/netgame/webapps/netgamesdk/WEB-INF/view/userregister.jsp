@@ -9,7 +9,7 @@
 			"password" : "${user.password}",<br/>
 			"initFromid" : "${user.initFromid}",<br/>
 			"dateline" : "${user.dateline}",<br/>
-			"mobile" : "${user.mobile}",<br/>
+			"phone" : "${user.phone}",<br/>
 			"email" : "${user.email}",<br/>
 			"score" : "${user.score}",<br/>
 			"isview" : "${user.isview}",<br/>

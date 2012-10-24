@@ -1,25 +1,16 @@
 package com.harry.test;
 
-import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.UnsupportedEncodingException;
+
 
 
 public class Test {
 	public static void main(String[] args) {
-		
-//		String str = " dsfad dafd 	afda ";
-//		String dest = "";
-//		if (str != null) {
-//			Pattern p = Pattern.compile("\\s*|\t|\r|\n");
-//			Matcher m = p.matcher(str);
-//			dest = m.replaceAll("");
-//		}
-//		System.out.println(dest);
-		
-		
-
+		String url = "http://www.yeahyoo.com/netgame/sdk/pay.do";
+		try {
+			System.out.println(java.net.URLEncoder.encode(url, "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
 	}
-	
-
 }
