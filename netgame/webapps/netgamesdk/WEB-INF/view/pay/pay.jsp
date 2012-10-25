@@ -11,14 +11,23 @@ if (acceptHeader.indexOf("application/vnd.wap.xhtml+xml") != -1){
 }else {
 	response.setContentType("text/html");
 }
+
+// 之前已经验证过了，现在不在验证
+String uid = request.getParameter("uid");
+String fromid = request.getParameter("fromid");
 %>
+
 <html xmlns="http://www.w3.org/1999/xhtml">  
-<head>
-	<title>手机支付</title>
+<head><title>手机支付页面</title>
 </head>
 <body>
-<!--支付接口: http://pay3.shenzhoufu.com/interface/version3/serverconnszx/entry-noxml.aspx -->
-
+请选择您需要支付的方式:
+	<table>
+		<tr><td><a href="<%=request.getContextPath()%>/pay/szf/yidong.do?uid=<%=uid%>&fromid=<%=fromid%>">移动充值卡</a></td></tr>
+		<tr><td><a href="<%=request.getContextPath()%>/pay/szf/liantong.do?uid=<%=uid%>&fromid=<%=fromid%>">联通充值卡</a></td></tr>
+		<tr><td><a href="<%=request.getContextPath()%>/pay/szf/dianxin.do?uid=<%=uid%>&fromid=<%=fromid%>">电信充值卡</a></td></tr>
+		<tr><td><a href="">银行卡</a></td></tr>
+	</table>
 </body>
 </html>
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,7 +54,7 @@ public class UserClientController {
 	@Resource
 	private UserService userService;
 
-	@RequestMapping(value = "/userRegister.do", params = { "name", "password",
+	@RequestMapping(value = "/userRegister.do",method = RequestMethod.POST , params = { "name", "password",
 			"initFromid" })
 	public String userRegister(@RequestParam("name") String name,
 			@RequestParam("password") String password,
@@ -99,7 +100,7 @@ public class UserClientController {
 		return "userregister";
 	}
 
-	@RequestMapping(value = "/userLogin.do", params = { "name", "password",
+	@RequestMapping(value = "/userLogin.do" ,method = RequestMethod.POST, params = { "name", "password",
 			"fromid" })
 	public String userLogin(@RequestParam("name") String name,
 			@RequestParam("password") String password,
@@ -121,7 +122,7 @@ public class UserClientController {
 		return "userlogin";
 	}
 
-	@RequestMapping("/userUpdate.do")
+	@RequestMapping(value = "/userUpdate.do", method = RequestMethod.POST)
 	public ModelAndView userUpdate(@RequestParam("uid") String uid,
 			@RequestParam("name") String name,
 			@RequestParam("oldpassword") String oldpassword,
@@ -161,7 +162,7 @@ public class UserClientController {
 		return new ModelAndView("userupdate", map);
 	}
 
-	@RequestMapping(value = "/userFind.do", params = { "name", "email" })
+	@RequestMapping(value = "/userFind.do", params = { "name", "email" }, method = RequestMethod.POST)
 	public ModelAndView userFind(@RequestParam("name") String name,
 			@RequestParam("email") String email,
 			@RequestParam("fromid") String fromid,
