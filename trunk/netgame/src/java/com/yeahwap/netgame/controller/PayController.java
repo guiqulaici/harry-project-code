@@ -38,26 +38,28 @@ public class PayController {
 	@RequestMapping(value = "/pay.do", method = RequestMethod.GET, params = {"uid", "fromid" })
 	public String validPay(@RequestParam("uid") String uid, @RequestParam("fromid") String fromid, Model model) {
 		if ("".equals(uid) || uid == null || "".equals(fromid) || fromid == null) {
-			return "redirct:1007/error";
+			// 当前路径:http://localhost:8080/netgame/pay
+			return "redirect:1007/error";
 		}
 		
 		// 验证用户是否存在
 		int id = StringUtil.getInt(uid, 0);
 		User user = userService.get(id);
 		if (user == null) {
-			return "redirct:1006/error";
+			return "redirect:1006/error";
 		}
 		
 		// 验证fromid是否存在
 		int fromID = StringUtil.getInt(fromid, 0);
 		NgFrom nf = ngFromService.get(fromID);
 		if (nf == null) {
-			return "redirct:1008/error";
+			return "redirect:1008/error";
 		}
 		
 		model.addAttribute("uid", uid);
 		model.addAttribute("fromid", fromid);
-		return "pay";
+		
+		return "/pay/pay";
 	}
 	
 	@RequestMapping("{errorCode}/error")
