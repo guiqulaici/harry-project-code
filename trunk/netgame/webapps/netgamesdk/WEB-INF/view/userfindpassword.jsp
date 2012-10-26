@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!-- http://localhost:8080/netgamesdk/sdk/userFind.do?name=abc&email=harry@yeahwap.com&fromid=1 -->
 {
 	<c:choose>
 		<c:when test="${user != null}">
