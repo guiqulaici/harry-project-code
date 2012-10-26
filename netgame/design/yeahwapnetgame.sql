@@ -1,9 +1,9 @@
 -- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               5.1.55-community - MySQL Community Server (GPL)
--- Server OS:                    Win32
+-- Host:                         121.101.219.28
+-- Server version:               5.1.59-log - MySQL Community Server (GPL)
+-- Server OS:                    unknown-linux-gnu
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-10-18 21:09:41
+-- Date/time:                    2012-10-26 18:00:01
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(20) NOT NULL DEFAULT 'a' COMMENT '密码',
   `init_fromid` int(11) NOT NULL DEFAULT '0' COMMENT '平台用户注册时的初始来源',
   `dateline` datetime NOT NULL DEFAULT '2012-07-01 01:01:01',
-  `mobile` varchar(20) DEFAULT 'a',
+  `phone` varchar(20) DEFAULT 'a',
   `email` varchar(50) DEFAULT 'a',
   `score` int(11) DEFAULT '0' COMMENT '账号的金额',
   `isview` int(11) NOT NULL DEFAULT '0' COMMENT '0、启用，1、黑名单',
