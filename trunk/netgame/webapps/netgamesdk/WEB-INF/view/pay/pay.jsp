@@ -8,7 +8,7 @@
 <c:url var="yidong" value="/szf/${uid}/${fromid}/yidong.do"></c:url>
 <c:url var="liantong" value="/szf/${uid}/${fromid}/liantong.do"></c:url>
 <c:url var="dianxin" value="/szf/${uid}/${fromid}/dianxin.do"></c:url>
-<c:url var="yinghang" value="/szf/${uid}/${fromid}/yinghang.do"></c:url>
+<c:url var="yinghang" value="/yibao/${uid}/${fromid}/yinghang.do"></c:url>
 <c:url var="zhifubao" value="/szf/${uid}/${fromid}/zhifubao.do"></c:url>
 
 <body>

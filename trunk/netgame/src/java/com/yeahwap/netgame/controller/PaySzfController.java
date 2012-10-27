@@ -2,11 +2,12 @@ package com.yeahwap.netgame.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yeahwap.netgame.domain.SzfCard;
 import com.yeahwap.netgame.domain.SzfCardType;
-import com.yeahwap.netgame.domain.pojo.SzfOrder;
 
 /**
  * The docking interface for szf!
@@ -19,13 +20,18 @@ import com.yeahwap.netgame.domain.pojo.SzfOrder;
 @RequestMapping("/szf")
 public class PaySzfController {
 	@RequestMapping(value="{uid}/{fromid}/yidong.do")
-	public String sendPay(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
+	public String sendYiDong(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
 		System.out.println(uid + ";" + fromid);
-		SzfOrder szfOrder = new SzfOrder();
-		szfOrder.setCardTypeCombine(SzfCardType.YIDONG);
-		modelMap.put("so", szfOrder);
+		SzfCard szfCard = new SzfCard();
+		szfCard.setCardType(SzfCardType.YIDONG);
+		modelMap.addAttribute("card", szfCard);
 		return "pay/szfsend";
 	} 
 	
-	// @RequestMapping(value="")
+	@RequestMapping(value="{fromid}/{uid}/payYidong.do")
+	public String payYiDong(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, @ModelAttribute("yidongCardInfo") SzfCard szfCard) {
+		System.out.println(uid + ";" + fromid);
+		System.out.println(szfCard.toString());
+		return "";
+	}
 }
