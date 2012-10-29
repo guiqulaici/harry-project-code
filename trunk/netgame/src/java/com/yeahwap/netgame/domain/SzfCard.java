@@ -1,5 +1,8 @@
 package com.yeahwap.netgame.domain;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 /**
  * 封装神州付的，移动卡，联通卡，电信卡
  * 
@@ -9,8 +12,11 @@ package com.yeahwap.netgame.domain;
  * 
  */
 public class SzfCard {
+	@Pattern (regexp="(^[0-9]{17}$)|(^[0-9]{15}$)", message="序列号格式无效")  
 	private String cardSN;
-	private String cardMoney;
+	@NotNull (message="请选择您充值卡的金额!")
+	private Integer cardMoney;
+	@Pattern (regexp="(^[0-9]{19}$)|(^[0-9]{18}$)", message="密码格式无效")
 	private String cardPassword;
 	private byte cardType = SzfCardType.YIDONG;
 
@@ -22,11 +28,11 @@ public class SzfCard {
 		this.cardSN = cardSN;
 	}
 
-	public String getCardMoney() {
+	public Integer getCardMoney() {
 		return cardMoney;
 	}
 
-	public void setCardMoney(String cardMoney) {
+	public void setCardMoney(Integer cardMoney) {
 		this.cardMoney = cardMoney;
 	}
 
@@ -53,6 +59,6 @@ public class SzfCard {
 		sb.append("cardMoney:" + this.cardMoney + ";");
 		sb.append("cardPassword:" + this.cardPassword + ";");
 		sb.append("cardType:" + this.cardType);
-		return super.toString();
+		return sb.toString();
 	}
 }

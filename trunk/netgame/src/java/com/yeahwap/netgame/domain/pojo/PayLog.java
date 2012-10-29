@@ -8,11 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 /**
- * Create on 2012-10-10 16:03
- * 
  * @author Harry
- * 
+ * @version 1.0 2012/10/29
+ * @since JDK1.6
  */
 @Entity
 @Table(name = "pay_log")
