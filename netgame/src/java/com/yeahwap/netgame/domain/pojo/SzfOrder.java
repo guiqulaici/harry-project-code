@@ -15,10 +15,6 @@ public class SzfOrder {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	// 神州付的订单号订单号的格式：yyyyMMdd-merId-SN;SN：有商户自定义的商品标识串
-	@Column(name = "order_id", length = 50)
-	private String orderId;
-
 	// 神州付当前使用接口的版本号
 	@Column(name = "version", length = 5)
 	private String version = "3";
@@ -30,6 +26,10 @@ public class SzfOrder {
 	// 充值金额，单位分;采用全面值支付
 	@Column(name = "pay_money", length = 10)
 	private int payMoney;
+
+	// 神州付的订单号订单号的格式：yyyyMMdd-merId-SN;SN：有商户自定义的商品标识串
+	@Column(name = "order_id", length = 50)
+	private String orderId;
 
 	// 商户接收神州付 支付平台的服务器返回地址（绝对地址），长度 1-255 位 之间。
 	@Column(name = "return_url", length = 254)
@@ -63,13 +63,13 @@ public class SzfOrder {
 	@Column(name = "md5_string", length = 254)
 	private String md5String;
 
-	// 证书校验
+	// 证书校验,只有当verifyType为MD5和证书校验时，才有效
 	@Column(name = "sign_string", length = 254)
 	private String signString;
 
 	@Column(name = "fromid", nullable = false)
 	private int fromid;
-	
+
 	@Column(name = "uid", nullable = false)
 	private int uid;
 

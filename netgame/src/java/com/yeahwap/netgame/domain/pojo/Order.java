@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "order")
+@Table(name = "order_base")
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,7 +26,9 @@ public class Order {
 	@Column(name = "fromid", nullable = false)
 	private int fromid;
 	@Column(name = "status", nullable = false)
-	private byte status; // 0.发送支付， 1.支付成功
+	private byte status; // 1.等待支付， 2.支付成功
+	@Column(name = "pay_money", nullable = false)
+	private int payMoney;
 	@Column(name = "date_time", nullable = false)
 	private Date dateTime;
 
@@ -40,6 +42,14 @@ public class Order {
 
 	public int getId() {
 		return id;
+	}
+
+	public int getPayMoney() {
+		return payMoney;
+	}
+
+	public void setPayMoney(int payMoney) {
+		this.payMoney = payMoney;
 	}
 
 	public void setId(int id) {
@@ -70,4 +80,17 @@ public class Order {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("uid=" + this.uid + ";");
+		sb.append("fromid=" + this.fromid + ";");
+		sb.append("status=" + this.status + ";");
+		sb.append("payMoney=" + this.payMoney + ";");
+		sb.append("dateTime=" + this.dateTime);
+		return sb.toString();
+	}
+	
+	
+	
 }
