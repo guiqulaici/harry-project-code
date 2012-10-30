@@ -118,11 +118,11 @@ public class Merchant {
 		sb.append("merId=" + this.merId + ";");
 		sb.append("merName=" + this.merName + ";");
 		sb.append("merReturnurl=" + this.merReturnurl + ";");
-		sb.append("merEmail=" + this.merEmail);
-		sb.append("version=" + this.version);
-		sb.append("verifyType=" + this.verifyType);
-		sb.append("desKey=" + this.desKey);
-		sb.append("url=" + this.url);
+		sb.append("merEmail=" + this.merEmail + ";");
+		sb.append("version=" + this.version + ";");
+		sb.append("verifyType=" + this.verifyType + ";");
+		sb.append("desKey=" + this.desKey + ";");
+		sb.append("url=" + this.url + ";");
 		return sb.toString();
 	}
 
