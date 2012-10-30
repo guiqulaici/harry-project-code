@@ -64,7 +64,27 @@ public class PaySzfController {
 		modelMap.put("fromid", fromid);
 		System.out.println("uid=" + uid + ";fromid=" + fromid);
 		return "pay/yidongsend";
-	} 
+	}
+	
+	@RequestMapping(value="{uid}/{fromid}/liantong.do")
+	public String sendLianTong(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
+		SzfCard szfCard = new SzfCard();
+		szfCard.setCardType(SzfCardType.LIANTONG);
+		modelMap.addAttribute("szfcard", szfCard);
+		modelMap.put("uid", uid);
+		modelMap.put("fromid", fromid);
+		return "pay/liantongsend";
+	}
+	
+	@RequestMapping(value="{uid}/{fromid}/dianxin.do")
+	public String sendDianXin(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
+		SzfCard szfCard = new SzfCard();
+		szfCard.setCardType(SzfCardType.LIANTONG);
+		modelMap.addAttribute("szfcard", szfCard);
+		modelMap.put("uid", uid);
+		modelMap.put("fromid", fromid);
+		return "pay/dianxinsend";
+	}
 
 	@RequestMapping(value="{fromid}/{uid}/payYiDong.do")
 	public String payYiDong(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap, HttpServletRequest request) {
@@ -73,7 +93,43 @@ public class PaySzfController {
 		if (br.hasErrors()) {
 			modelMap.put("uid", uid);
 			modelMap.put("fromid", fromid);
-			return "pay/szfsend";
+			return "pay/yidongsend";
+		}
+		
+		// 获取商户信息
+		Merchant mer = merchantService.get(MerInfo.SZFINFO);
+		System.out.println("商户信息:" + mer);
+		int id = addSzfOrder(uid, fromid, szfCard, mer);
+		String codeUrl = accessingURL(id, mer);
+		return "redirect:" + "/szf/" + codeUrl;
+	}
+	
+	@RequestMapping(value="{fromid}/{uid}/payLianTong.do")
+	public String payLianTong(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap, HttpServletRequest request) {
+		System.out.println(szfCard.toString());
+		
+		if (br.hasErrors()) {
+			modelMap.put("uid", uid);
+			modelMap.put("fromid", fromid);
+			return "pay/liantongsend";
+		}
+		
+		// 获取商户信息
+		Merchant mer = merchantService.get(MerInfo.SZFINFO);
+		System.out.println("商户信息:" + mer);
+		int id = addSzfOrder(uid, fromid, szfCard, mer);
+		String codeUrl = accessingURL(id, mer);
+		return "redirect:" + "/szf/" + codeUrl;
+	}
+	
+	@RequestMapping(value="{fromid}/{uid}/payDianXin.do")
+	public String payDianXin(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap, HttpServletRequest request) {
+		System.out.println(szfCard.toString());
+		
+		if (br.hasErrors()) {
+			modelMap.put("uid", uid);
+			modelMap.put("fromid", fromid);
+			return "pay/dianxinsend";
 		}
 		
 		// 获取商户信息
