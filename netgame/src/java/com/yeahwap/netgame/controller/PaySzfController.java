@@ -63,7 +63,7 @@ public class PaySzfController {
 		modelMap.put("uid", uid);
 		modelMap.put("fromid", fromid);
 		System.out.println("uid=" + uid + ";fromid=" + fromid);
-		return "pay/szfsend";
+		return "pay/yidongsend";
 	} 
 
 	@RequestMapping(value="{fromid}/{uid}/payYiDong.do")
@@ -78,7 +78,7 @@ public class PaySzfController {
 		
 		// 获取商户信息
 		Merchant mer = merchantService.get(MerInfo.SZFINFO);
-		System.out.println(mer);
+		System.out.println("商户信息:" + mer);
 		
 		int id = addSzfOrder(uid, fromid, szfCard, mer);
 		
@@ -88,15 +88,14 @@ public class PaySzfController {
 	}
 	
 	@RequestMapping("{szfOrderId}/{errorCode}/error")
-	public void Error(@PathVariable("errorCode") String code, @PathVariable("szfOrderId") String szfOrderId) {
-		System.out.println("szfOrderId=" + szfOrderId + ";code=" + code);
-		
+	public Object Error(@PathVariable("errorCode") String code, @PathVariable("szfOrderId") String szfOrderId) {
 		if (!("200").equals(code)) {
 			// 支付失效，关闭所有订单
 			closeOrder(szfOrderId);
 		}
 		
 		// 我不想返回页面了，如何处理
+		return null;
 	}
 
 	// 新建本地订单
@@ -114,12 +113,11 @@ public class PaySzfController {
 	// 新建神州付订单
 	private int addSzfOrder(int uid , int fromid, SzfCard card, Merchant mer) {
 		SzfOrder szfOrder = new SzfOrder();
-		System.out.println(uid + ";" + fromid + ";" + card.getCardMoney());
-		int orderId = addOrder(uid, fromid, card.getCardMoney());
+		int orderId = addOrder(uid, fromid, card.getCardMoney() * 100);
 		
 		szfOrder.setVersion(mer.getVersion());
 		szfOrder.setMerId(mer.getMerId());
-		szfOrder.setPayMoney(card.getCardMoney());
+		szfOrder.setPayMoney(0);
 		
 		// 拼接神州付订单号
 		String szfOrderId = DAYFORMAT.format(new Date()) + "-" + mer.getMerId() + "-" + orderId;
@@ -135,14 +133,14 @@ public class PaySzfController {
 		szfOrder.setMerUserMail(mer.getMerEmail());
 		
 		// TODO 私有数据,需要问神州付工作人员
-		String privateField = uid + "|" + fromid + "|" + orderId;
+		String privateField = uid + "_" + fromid + "_" + orderId;
 		szfOrder.setPrivateField(privateField);
 		
 		szfOrder.setVerifyType(mer.getVerifyType());
 		szfOrder.setCardTypeCombine(card.getCardType());
 		
 		// TODO Md5校验字符串,需要问神州付工作人员
-		String privateKey = "xxx";
+		String privateKey = "123456";
 		String combineString = mer.getVersion() + mer.getMerId() + card.getCardMoney() + szfOrderId + mer.getMerReturnurl() + cardInfo + privateField + mer.getVerifyType() + privateKey;
 		String md5String = DigestUtils.md5Hex(combineString); //md5加密串
 		szfOrder.setMd5String(md5String);
@@ -200,7 +198,7 @@ public class PaySzfController {
 			return  szfOrder.getOrderId() + "/-1/error";
 		}
 
-		return szfOrder.getOrderId() + "-1/error";
+		return szfOrder.getOrderId() + "/-1/error";
 	}
 	
 	private void closeOrder(String szfOrderId) {
