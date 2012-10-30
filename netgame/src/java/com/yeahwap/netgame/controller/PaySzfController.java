@@ -79,23 +79,26 @@ public class PaySzfController {
 		// 获取商户信息
 		Merchant mer = merchantService.get(MerInfo.SZFINFO);
 		System.out.println("商户信息:" + mer);
-		
 		int id = addSzfOrder(uid, fromid, szfCard, mer);
-		
 		String codeUrl = accessingURL(id, mer);
-		
 		return "redirect:" + "/szf/" + codeUrl;
 	}
 	
-	@RequestMapping("{szfOrderId}/{errorCode}/error")
-	public Object Error(@PathVariable("errorCode") String code, @PathVariable("szfOrderId") String szfOrderId) {
+	@RequestMapping("{uid}/{fromid}/{szfOrderId}/{errorCode}/returnInfo.do")
+	public String returnInfo(@PathVariable("errorCode") String code, @PathVariable("szfOrderId") String szfOrderId, @PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
+		modelMap.put("uid", uid);
+		modelMap.put("fromid", fromid);
+		modelMap.put("szfOrderId", szfOrderId);
+		
 		if (!("200").equals(code)) {
 			// 支付失效，关闭所有订单
 			closeOrder(szfOrderId);
+			// 支付失败页面
+			return "pay/error/szfpayerror";
 		}
 		
-		// 我不想返回页面了，如何处理
-		return null;
+		// 正在支付 页面
+		return "pay/error/szfpaying";
 	}
 
 	// 新建本地订单
@@ -117,6 +120,7 @@ public class PaySzfController {
 		
 		szfOrder.setVersion(mer.getVersion());
 		szfOrder.setMerId(mer.getMerId());
+		// 全额付款，支付金额必须为0
 		szfOrder.setPayMoney(0);
 		
 		// 拼接神州付订单号
@@ -191,14 +195,14 @@ public class PaySzfController {
 				// 当正确响应时处理数据
 				szfResponseCode = httpConnection.getHeaderFieldInt("szfResponseCode", 0);
 				System.out.println("连接神州付服务器：" + mer.getUrl() + "，SZF响应代码：" + szfResponseCode);
-				return szfOrder.getOrderId() + "/" + szfResponseCode + "/error";
+				return szfOrder.getUid() +"/"+ szfOrder.getFromid() +"/" + szfOrder.getOrderId() + "/" + szfResponseCode + "/returnInfo.do";
 			}
 		} catch (Exception e) {
 			System.out.println("连接神州付服务器：" + mer.getUrl() + "异常，e=" + e);
-			return  szfOrder.getOrderId() + "/-1/error";
+			return  szfOrder.getUid() +"/"+ szfOrder.getFromid() +"/" + szfOrder.getOrderId() + "/-1/returnInfo.do";
 		}
 
-		return szfOrder.getOrderId() + "/-1/error";
+		return szfOrder.getUid() +"/"+ szfOrder.getFromid() +"/"+ szfOrder.getOrderId() + "/-1/returnInfo.do";
 	}
 	
 	private void closeOrder(String szfOrderId) {
