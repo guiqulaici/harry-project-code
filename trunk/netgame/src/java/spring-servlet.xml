@@ -11,7 +11,7 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 			http://www.yeahwap.com/spring/if http://www.yeahwap.com/spring/if.xsd
 			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
-	<mvc:annotation-driven/>
+	
 	
 	<context:property-placeholder location="classpath:config.properties" />
 	
@@ -29,6 +29,8 @@
 	          </list>   
 	    </property>  
 	</bean>
+	
+	<mvc:annotation-driven/> 
 	 
 	<context:component-scan base-package="com.yeahwap.netgame.controller"></context:component-scan>
 	

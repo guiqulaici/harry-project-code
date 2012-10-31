@@ -4,7 +4,7 @@
 4、springmvc中直接添加model.add(value)默认key是就是value的类型，至于是否第一个字母小写。privateproject有讲到
 
 
-
+http://www.cnblogs.com/hawk0035/archive/2011/09/24/2189362.html
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->    
 	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >  
 	 	<property name="messageConverters">   
@@ -19,6 +19,8 @@
 	          </list>   
 	    </property>  
 	 </bean>
+
+<mvc:annotation-driven/> 必须要在它的后面
 
 
 
