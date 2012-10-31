@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yeahwap.netgame.domain.MerInfo;
 import com.yeahwap.netgame.domain.OrderType;
 import com.yeahwap.netgame.domain.SzfCard;
+import com.yeahwap.netgame.domain.SzfErrorCode;
 import com.yeahwap.netgame.domain.pojo.Merchant;
 import com.yeahwap.netgame.domain.pojo.Order;
 import com.yeahwap.netgame.domain.pojo.SzfOrder;
@@ -127,7 +128,7 @@ public class PaySzfController {
 			}
 		}
 		
-		return "错误代码:" + code;
+		return SzfErrorCode.getValidCode(code);
 	}
 
 	// 新建本地订单
