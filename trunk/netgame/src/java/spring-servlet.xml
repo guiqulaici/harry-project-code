@@ -11,14 +11,30 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
 			http://www.yeahwap.com/spring/if http://www.yeahwap.com/spring/if.xsd
 			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+	<mvc:annotation-driven/>
+	
 	<context:property-placeholder location="classpath:config.properties" />
+	
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->    
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >  
+	 	<property name="messageConverters">   
+	          <list>   
+	              <bean class = "org.springframework.http.converter.StringHttpMessageConverter">   
+	                 <property name = "supportedMediaTypes">
+	                       <list>
+	                           <value>text/html;charset=UTF-8</value>   
+	                      </list>   
+	                 </property>   
+	              </bean>   
+	          </list>   
+	    </property>  
+	</bean>
+	 
 	<context:component-scan base-package="com.yeahwap.netgame.controller"></context:component-scan>
 	
 	<if:condition test="${hessian.server.load}" location="/config.properties">
 		<import resource="hessian-controller.xml"/>	
 	</if:condition>
-	
-	<mvc:annotation-driven/>
 	
 	<!--<mvc:interceptors>
 		<mvc:interceptor>
@@ -56,4 +72,5 @@
 		<property name="prefix" value="/WEB-INF/view/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+	
 </beans>
