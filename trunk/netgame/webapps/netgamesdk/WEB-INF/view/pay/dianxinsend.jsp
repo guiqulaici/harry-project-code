@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form"  prefix="sf"%>
 <html xmlns="http://www.w3.org/1999/xhtml">  
-<head><title>联通卡支付</title>
+<head><title>电信卡支付</title>
 </head>
 <c:url value="/szf/${fromid}/${uid}/payDianXin.do" var="dianxinzf"></c:url>
 <body>

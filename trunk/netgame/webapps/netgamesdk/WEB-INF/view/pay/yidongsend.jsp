@@ -22,8 +22,8 @@
             <span>请用户确认充值卡面值与产品面值相符，否则后果自负</span>
         </td>
 		</tr>
-		<tr><td>移动卡密码:</td><td><sf:password path="cardPassword"/><sf:errors path="cardPassword"/></td></tr>
-		<tr><td><input type="submit" value="确认支付"/></td></tr>
+		<tr><td>移动卡密码:</td><td><sf:input path="cardPassword"/><sf:errors path="cardPassword"/></td></tr>
+		<tr><td><input type="submit" value="提交"/></td></tr>
 	</table>
 </sf:form>
 </body>
