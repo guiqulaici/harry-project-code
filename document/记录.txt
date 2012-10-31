@@ -1,1 +1,4 @@
-使用springmvc的验证@valid 当发生错误之后，使用BindingResult 并再次重写renturn到页面的时候，被验证的实体也是会被再次映射到前台的，但是非验证的实体，就需要我们再次传值过去了
+1、使用springmvc的验证@valid 当发生错误之后，使用BindingResult 并再次重写renturn到页面的时候，被验证的实体也是会被再次映射到前台的，但是非验证的实体，就需要我们再次传值过去了
+2、java的前台和后台url路径"/" 和没有"/"（privateproject）
+3、form前后台绑定使用modelAttribute，不使用modelAttribute默认绑定需要满足什么条件，privateproject有讲到
+4、springmvc中直接添加model.add(value)默认key是就是value的类型，至于是否第一个字母小写。privateproject有讲到

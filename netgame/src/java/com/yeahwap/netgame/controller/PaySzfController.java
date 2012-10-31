@@ -79,7 +79,7 @@ public class PaySzfController {
 	@RequestMapping(value="{uid}/{fromid}/dianxin.do")
 	public String sendDianXin(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
 		SzfCard szfCard = new SzfCard();
-		szfCard.setCardType(SzfCardType.LIANTONG);
+		szfCard.setCardType(SzfCardType.DIANXING);
 		modelMap.addAttribute("szfcard", szfCard);
 		modelMap.put("uid", uid);
 		modelMap.put("fromid", fromid);
