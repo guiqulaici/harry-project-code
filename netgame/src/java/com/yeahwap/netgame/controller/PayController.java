@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.yeahwap.netgame.domain.SzfCardType;
 import com.yeahwap.netgame.domain.pojo.NgFrom;
 import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.netgame.service.NgFromService;
@@ -58,6 +59,9 @@ public class PayController {
 		
 		model.addAttribute("uid", uid);
 		model.addAttribute("fromid", fromid);
+		model.addAttribute("yidong", SzfCardType.YIDONG);
+		model.addAttribute("liantong", SzfCardType.LIANTONG);
+		model.addAttribute("dianxin", SzfCardType.DIANXING);
 		
 		return "/pay/pay";
 	}

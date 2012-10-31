@@ -19,11 +19,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yeahwap.netgame.domain.MerInfo;
 import com.yeahwap.netgame.domain.OrderType;
 import com.yeahwap.netgame.domain.SzfCard;
-import com.yeahwap.netgame.domain.SzfCardType;
 import com.yeahwap.netgame.domain.pojo.Merchant;
 import com.yeahwap.netgame.domain.pojo.Order;
 import com.yeahwap.netgame.domain.pojo.SzfOrder;
@@ -55,106 +55,79 @@ public class PaySzfController {
 	@Qualifier("szfOrderService")
 	private SzfOrderService szfOrderService;
 	
-	@RequestMapping(value="{uid}/{fromid}/yidong.do")
-	public String sendYiDong(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
+	@RequestMapping(value="{uid}/{fromid}/{cardType}/szfSend.do")
+	public String szfSend(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, @PathVariable("cardType") byte cardType, ModelMap modelMap) {
 		SzfCard szfCard = new SzfCard();
-		szfCard.setCardType(SzfCardType.YIDONG);
+		szfCard.setCardType(cardType);
 		modelMap.addAttribute("szfCard", szfCard);
 		modelMap.put("uid", uid);
 		modelMap.put("fromid", fromid);
-		System.out.println("uid=" + uid + ";fromid=" + fromid);
-		return "pay/yidongsend";
-	}
-	
-	@RequestMapping(value="{uid}/{fromid}/liantong.do")
-	public String sendLianTong(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
-		SzfCard szfCard = new SzfCard();
-		szfCard.setCardType(SzfCardType.LIANTONG);
-		modelMap.addAttribute("szfcard", szfCard);
-		modelMap.put("uid", uid);
-		modelMap.put("fromid", fromid);
-		return "pay/liantongsend";
-	}
-	
-	@RequestMapping(value="{uid}/{fromid}/dianxin.do")
-	public String sendDianXin(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
-		SzfCard szfCard = new SzfCard();
-		szfCard.setCardType(SzfCardType.DIANXING);
-		modelMap.addAttribute("szfcard", szfCard);
-		modelMap.put("uid", uid);
-		modelMap.put("fromid", fromid);
-		return "pay/dianxinsend";
+		// System.out.println("uid=" + uid + ";fromid=" + fromid);
+		return "pay/szfsend";
 	}
 
-	@RequestMapping(value="{fromid}/{uid}/payYiDong.do")
-	public String payYiDong(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap, HttpServletRequest request) {
-		System.out.println(szfCard.toString());
-		
-		if (br.hasErrors()) {
-			modelMap.put("uid", uid);
-			modelMap.put("fromid", fromid);
-			return "pay/yidongsend";
-		}
-		
-		// 获取商户信息
-		Merchant mer = merchantService.get(MerInfo.SZFINFO);
-		System.out.println("商户信息:" + mer);
-		int id = addSzfOrder(uid, fromid, szfCard, mer);
-		String codeUrl = accessingURL(id, mer);
-		return "redirect:" + "/szf/" + codeUrl;
-	}
-	
-	@RequestMapping(value="{fromid}/{uid}/payLianTong.do")
-	public String payLianTong(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap, HttpServletRequest request) {
-		System.out.println(szfCard.toString());
-		
-		if (br.hasErrors()) {
-			modelMap.put("uid", uid);
-			modelMap.put("fromid", fromid);
-			return "pay/liantongsend";
-		}
-		
-		// 获取商户信息
-		Merchant mer = merchantService.get(MerInfo.SZFINFO);
-		System.out.println("商户信息:" + mer);
-		int id = addSzfOrder(uid, fromid, szfCard, mer);
-		String codeUrl = accessingURL(id, mer);
-		return "redirect:" + "/szf/" + codeUrl;
-	}
-	
-	@RequestMapping(value="{fromid}/{uid}/payDianXin.do")
-	public String payDianXin(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap, HttpServletRequest request) {
-		System.out.println(szfCard.toString());
-		
-		if (br.hasErrors()) {
-			modelMap.put("uid", uid);
-			modelMap.put("fromid", fromid);
-			return "pay/dianxinsend";
-		}
-		
-		// 获取商户信息
-		Merchant mer = merchantService.get(MerInfo.SZFINFO);
-		System.out.println("商户信息:" + mer);
-		int id = addSzfOrder(uid, fromid, szfCard, mer);
-		String codeUrl = accessingURL(id, mer);
-		return "redirect:" + "/szf/" + codeUrl;
-	}
-	
-	@RequestMapping("{uid}/{fromid}/{szfOrderId}/{errorCode}/returnInfo.do")
-	public String returnInfo(@PathVariable("errorCode") String code, @PathVariable("szfOrderId") String szfOrderId, @PathVariable("uid") String uid, @PathVariable("fromid") String fromid, ModelMap modelMap) {
+	@RequestMapping(value="{fromid}/{uid}/szfValid.do")
+	public String szfValid(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap) {
+		// System.out.println(szfCard.toString());
 		modelMap.put("uid", uid);
 		modelMap.put("fromid", fromid);
-		modelMap.put("szfOrderId", szfOrderId);
 		
-		if (!("200").equals(code)) {
-			// 支付失效，关闭所有订单
-			closeOrder(szfOrderId);
-			// 支付失败页面
-			return "pay/error/szfpayerror";
+		if (br.hasErrors()) {
+			return "pay/szfsend";
 		}
 		
-		// 正在支付 页面
-		return "pay/error/szfpaying";
+		// 跳转到确认页面
+		modelMap.put("szfCard", szfCard);
+		return "pay/szfsendpay";
+	}
+	
+	@RequestMapping("/ajax/{fromid}/{uid}/{cardType}/{cardSN}/{cardMoney}/{cardPassword}/szfpay.do")
+	@ResponseBody
+	public Object payAjax(@PathVariable("fromid") int fromid,
+			@PathVariable("uid") int uid,
+			@PathVariable("cardType") byte cardType,
+			@PathVariable("cardSN") String cardSN,
+			@PathVariable("cardMoney") int cardMoney,
+			@PathVariable("cardPassword") String cardPassword) {
+		SzfCard szfCard = new SzfCard();
+		szfCard.setCardType(cardType);
+		szfCard.setCardSN(cardSN);
+		szfCard.setCardPassword(cardPassword);
+		szfCard.setCardMoney(cardMoney);
+		
+		System.out.println(szfCard.toString());
+		System.out.println("uid=" + uid + ";fromid=" + fromid);
+		
+		// 获取商户信息
+		Merchant mer = merchantService.get(MerInfo.SZFINFO);
+		System.out.println("商户信息:" + mer);
+		SzfOrder szfOrder = addSzfOrder(uid, fromid, szfCard, mer);
+		int id = szfOrderService.add(szfOrder);
+		
+		return szfOrder.getOrderId();
+	}
+	
+	@RequestMapping("/ajax/szfpay.do")
+	@ResponseBody
+	public Object payAjax(HttpServletRequest request) {
+		String szfOrderId = request.getParameter("data");
+		if (("").equals(szfOrderId) || szfOrderId == null) {
+			return "订单号格式出错，充值失败";
+		}
+		
+		SzfOrder szfOrder = szfOrderService.get(szfOrderId);
+		Merchant mer = merchantService.get(MerInfo.SZFINFO);
+		String code = "-1"; 
+		
+		if (szfOrder != null) {
+			code = accessingURL(szfOrder.getId(), mer);
+			
+			if (!code.equals("200")) {
+				closeOrder(szfOrderId);
+			}
+		}
+		
+		return "错误代码:" + code;
 	}
 
 	// 新建本地订单
@@ -169,8 +142,8 @@ public class PaySzfController {
 		return id;
 	}
 	
-	// 新建神州付订单
-	private int addSzfOrder(int uid , int fromid, SzfCard card, Merchant mer) {
+	// 封装神州付订单
+	private SzfOrder addSzfOrder(int uid , int fromid, SzfCard card, Merchant mer) {
 		SzfOrder szfOrder = new SzfOrder();
 		int orderId = addOrder(uid, fromid, card.getCardMoney() * 100);
 		
@@ -213,8 +186,7 @@ public class PaySzfController {
 		szfOrder.setDateTime(new Date());
 		szfOrder.setStatus(OrderType.WAITPAY);
 		
-		int id = szfOrderService.add(szfOrder);
-		return id;
+		return szfOrder;
 	}
 	
 	// 访问神州付完成支付
@@ -251,14 +223,14 @@ public class PaySzfController {
 				// 当正确响应时处理数据
 				szfResponseCode = httpConnection.getHeaderFieldInt("szfResponseCode", 0);
 				System.out.println("连接神州付服务器：" + mer.getUrl() + "，SZF响应代码：" + szfResponseCode);
-				return szfOrder.getUid() +"/"+ szfOrder.getFromid() +"/" + szfOrder.getOrderId() + "/" + szfResponseCode + "/returnInfo.do";
+				return szfResponseCode + "";
 			}
 		} catch (Exception e) {
 			System.out.println("连接神州付服务器：" + mer.getUrl() + "异常，e=" + e);
-			return  szfOrder.getUid() +"/"+ szfOrder.getFromid() +"/" + szfOrder.getOrderId() + "/-1/returnInfo.do";
+			return  "-1";
 		}
 
-		return szfOrder.getUid() +"/"+ szfOrder.getFromid() +"/"+ szfOrder.getOrderId() + "/-1/returnInfo.do";
+		return "-1";
 	}
 	
 	private void closeOrder(String szfOrderId) {
@@ -272,6 +244,7 @@ public class PaySzfController {
 		order.setStatus(OrderType.CLOSEPAY);
 		orderService.update(order);
 	}
+
 }
 
 
