@@ -160,7 +160,7 @@ public class PaySzfController {
 		szfOrder.setReturnUrl(mer.getMerReturnurl());
 		
 		// TODO 充值卡加密信息,mer.getDesKey()流程需要找神州付获取
-		String cardInfo = ServerConnSzxUtils.getDesEncryptBase64String(card.getCardMoney() + "", card.getCardSN(), card.getCardPassword(), mer.getDesKey());
+		String cardInfo = ServerConnSzxUtils.getDesEncryptBase64String(card.getCardMoney()*100 + "", card.getCardSN(), card.getCardPassword(), mer.getDesKey());
 		szfOrder.setCardInfo(cardInfo);
 		
 		szfOrder.setMerUserName(mer.getMerName());
@@ -175,7 +175,7 @@ public class PaySzfController {
 		
 		// TODO Md5校验字符串,需要问神州付工作人员
 		String privateKey = "123456";
-		String combineString = mer.getVersion() + mer.getMerId() + card.getCardMoney() + szfOrderId + mer.getMerReturnurl() + cardInfo + privateField + mer.getVerifyType() + privateKey;
+		String combineString = mer.getVersion() + mer.getMerId() + 0 + szfOrderId + mer.getMerReturnurl() + cardInfo + privateField + mer.getVerifyType() + privateKey;
 		String md5String = DigestUtils.md5Hex(combineString); //md5加密串
 		szfOrder.setMd5String(md5String);
 		
