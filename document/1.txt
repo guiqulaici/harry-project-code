@@ -1,0 +1,87 @@
+廖彦斌 15:20:21
+获得什么ＩＰ，浏览器的ＩＰ吗？
+小破孩 15:20:42
+比如手机当前IP
+廖彦斌 15:22:12
+然后通过request.getRemoteAddr()取得客户端的IP地址
+小破孩 15:22:38
+我咋地没有查到这个方法的api呢
+小破孩 15:23:07
+HttpServletRequest 继承的是ServletRquest
+小破孩 15:23:26
+但是servletrequest里面这个getRemoteAddr方法是个抽象的
+小破孩 15:23:45
+我在HttpServletRequest 里面又没有找到getRemoteAddr这个方法
+廖彦斌 15:23:45
+要查J2EE的ＡＰＩ
+廖彦斌 15:23:54
+http://docs.oracle.com/javaee/5/api/javax/servlet/ServletRequest.html
+廖彦斌 15:24:13
+http://docs.oracle.com/javaee/5/api/javax/servlet/ServletRequest.html#getRemoteAddr()
+小破孩 15:25:37
+奇怪，我直接拿的tomcat的里面的servlet.jar包找的servletrequest怎么这个方式是抽象的
+
+廖彦斌 15:25:55
+HttpServletRequest
+小破孩 15:26:45
+tomcat的servlet.jar包里面是没有HttpServletRequest
+小破孩 15:26:46
+的
+小破孩 15:27:36
+ 
+廖彦斌 15:29:38
+抽象方法吗？容器里总有地方去实现他
+小破孩 15:30:16
+谁去实现？
+廖彦斌 15:30:45
+那是容器的事情
+小破孩 15:31:18
+不明白你说的容器是啥意思
+廖彦斌 15:31:36
+servlet容器
+小破孩 15:33:17
+ServletRequst 被 HttpServletRequest继承，
+
+我们jsp上面request是HttpServletRequest类型的。只有ServletRequst 中有getgetRemoteAddr().那serlvet容器，怎么能实现这个方法
+小破孩 15:35:23
+就算是向上转型，我也想不出来这个容器怎么来处理这样的问题
+廖彦斌 15:36:38
+ServletRequest是父类
+HttpServletRequest是子类
+廖彦斌 15:36:54
+http://docs.oracle.com/javaee/5/api/javax/servlet/http/HttpServletRequest.html
+廖彦斌 15:36:58
+你是不是搞反了
+小破孩 15:37:16
+是啊
+廖彦斌 15:37:07
+ 
+廖彦斌 15:37:19
+实现类是HttpServletRequestWrapper
+小破孩 15:37:22
+没搞饭
+廖彦斌 15:37:49
+父类的所有public方法，子类都可以继续
+小破孩 15:38:03
+是没错
+廖彦斌 15:38:25
+既然ServletRequst 中有getgetRemoteAddr()
+那么HttpServletRequest也有getgetRemoteAddr()
+
+小破孩 15:38:35
+是
+小破孩 15:39:07
+request定义的又不是HttpServletRequestWrapper
+
+廖彦斌 15:39:35
+HttpServletRequest　request = new HttpServletRequestWrapper()
+有问题吗？
+小破孩 15:40:06
+ 这样是可以
+廖彦斌 15:40:41
+那JSP只有HttpServletRequest　request
+那犯法吗？
+小破孩 15:41:00
+不犯法，是我犯法了
+小破孩 15:41:05
+ 
