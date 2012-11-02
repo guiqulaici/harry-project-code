@@ -17,6 +17,4 @@ public class Constants {
 	public static final String HEADER_VALID = PropertyUtil.getProperty("header.valid");
 	public static final int LOG_BATCH_SIZE = Integer.parseInt(PropertyUtil.getProperty("log.batch.size"));
 	public static final int LOG_TIMEOUT = Integer.parseInt(PropertyUtil.getProperty("log.batch.timeout"));
-	
-	
 }

@@ -8,6 +8,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class HttpUtil {
 	public static String getRemoteIP(HttpServletRequest req) {
-		return req.getHeader("X-Real-IP") == null ? "127.0.0.1" : req.getHeader("X-Real-IP");
+		String ip = req.getHeader("X-Real-IP");
+		
+		if (ip == null || ("").equals(ip)) {
+			ip = req.getRemoteAddr() == null ? "127.0.0.1" : req.getRemoteAddr();
+		}
+		
+		return ip;
 	}
 }

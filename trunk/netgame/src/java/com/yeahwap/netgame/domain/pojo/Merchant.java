@@ -39,6 +39,8 @@ public class Merchant {
 	private String desKey;
 	@Column(name = "url", nullable = false)
 	private String url;
+	@Column(name = "private_key", nullable = false)
+	private String privateKey;
 
 	public String getUrl() {
 		return url;
@@ -110,6 +112,14 @@ public class Merchant {
 
 	public void setMerEmail(String merEmail) {
 		this.merEmail = merEmail;
+	}
+
+	public String getPrivateKey() {
+		return privateKey;
+	}
+
+	public void setPrivateKey(String privateKey) {
+		this.privateKey = privateKey;
 	}
 
 	@Override

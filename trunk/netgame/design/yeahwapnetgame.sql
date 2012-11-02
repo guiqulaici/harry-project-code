@@ -1,9 +1,9 @@
 -- --------------------------------------------------------
--- Host:                         121.101.219.28
--- Server version:               5.1.59-log - MySQL Community Server (GPL)
--- Server OS:                    unknown-linux-gnu
+-- Host:                         127.0.0.1
+-- Server version:               5.1.55-community - MySQL Community Server (GPL)
+-- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-10-26 18:00:01
+-- Date/time:                    2012-11-02 17:26:46
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -55,6 +55,24 @@ CREATE TABLE IF NOT EXISTS `cp` (
 -- Data exporting was unselected.
 
 
+-- Dumping structure for table yeahwapnetgame.merchant
+CREATE TABLE IF NOT EXISTS `merchant` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `mer_id` varchar(50) NOT NULL DEFAULT '0',
+  `mer_name` varchar(50) NOT NULL DEFAULT '0',
+  `mer_returnurl` varchar(50) NOT NULL DEFAULT '0',
+  `mer_email` varchar(50) NOT NULL DEFAULT '0',
+  `version` varchar(50) NOT NULL DEFAULT '0',
+  `verify_type` tinyint(4) NOT NULL DEFAULT '0',
+  `des_key` varchar(50) NOT NULL DEFAULT '0',
+  `url` varchar(200) NOT NULL DEFAULT '0',
+  `private_key` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
 -- Dumping structure for table yeahwapnetgame.ng_from
 CREATE TABLE IF NOT EXISTS `ng_from` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '产品渠道关联表产生来源ID',
@@ -63,6 +81,20 @@ CREATE TABLE IF NOT EXISTS `ng_from` (
   `channel_id` int(11) NOT NULL DEFAULT '0' COMMENT '渠道id',
   `frominfo` text COMMENT '关联简介',
   `isview` int(11) DEFAULT '0' COMMENT '是否启用',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table yeahwapnetgame.order_base
+CREATE TABLE IF NOT EXISTS `order_base` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `fromid` int(10) NOT NULL DEFAULT '0',
+  `uid` int(10) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `pay_money` int(10) NOT NULL DEFAULT '0',
+  `date_time` datetime NOT NULL DEFAULT '2010-01-01 00:00:00',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -102,6 +134,32 @@ CREATE TABLE IF NOT EXISTS `product` (
   `name` varchar(50) NOT NULL DEFAULT 'a' COMMENT '游戏名称',
   `isview` int(11) NOT NULL DEFAULT '0' COMMENT '0、启用；1、黑名单',
   `dateline` datetime DEFAULT '2012-07-01 01:01:01',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table yeahwapnetgame.szf_order
+CREATE TABLE IF NOT EXISTS `szf_order` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `version` varchar(50) NOT NULL DEFAULT '0',
+  `mer_id` varchar(50) NOT NULL DEFAULT '0',
+  `pay_money` int(10) NOT NULL DEFAULT '0',
+  `order_id` varchar(50) NOT NULL DEFAULT '0',
+  `return_url` varchar(254) NOT NULL DEFAULT '0',
+  `card_info` varchar(254) NOT NULL DEFAULT '0',
+  `mer_user_name` varchar(50) NOT NULL DEFAULT '0',
+  `mer_user_mail` varchar(50) NOT NULL DEFAULT '0',
+  `private_field` varchar(100) NOT NULL DEFAULT '0',
+  `verify_type` tinyint(4) NOT NULL DEFAULT '0',
+  `card_type_combien` tinyint(4) NOT NULL DEFAULT '0',
+  `md5_string` varchar(254) NOT NULL DEFAULT '0',
+  `sign_string` varchar(254) NOT NULL DEFAULT '0',
+  `fromid` int(11) NOT NULL DEFAULT '0',
+  `uid` int(11) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `date_time` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

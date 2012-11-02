@@ -174,8 +174,7 @@ public class PaySzfController {
 		szfOrder.setCardTypeCombine(card.getCardType());
 		
 		// TODO Md5校验字符串,需要问神州付工作人员
-		String privateKey = "123456";
-		String combineString = mer.getVersion() + mer.getMerId() + 0 + szfOrderId + mer.getMerReturnurl() + cardInfo + privateField + mer.getVerifyType() + privateKey;
+		String combineString = mer.getVersion() + mer.getMerId() + 0 + szfOrderId + mer.getMerReturnurl() + cardInfo + privateField + mer.getVerifyType() + mer.getPrivateKey();
 		String md5String = DigestUtils.md5Hex(combineString); //md5加密串
 		szfOrder.setMd5String(md5String);
 		
