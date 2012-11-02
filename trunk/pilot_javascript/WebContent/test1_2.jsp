@@ -5,7 +5,7 @@
 <head>
 <script type="text/javascript" src="js/lesson1_2.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>测试js</title>
+<title>测试js1_2</title>
 </head>
 <body>
 

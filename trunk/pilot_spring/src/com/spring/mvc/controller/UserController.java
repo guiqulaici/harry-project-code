@@ -11,13 +11,11 @@ import com.spring.mvc.domain.SZfcard;
 @RequestMapping("/user")
 public class UserController {
 	
-	@RequestMapping("login.do")
-	public String login(Model model) {
-		SZfcard card = new SZfcard();
-		model.addAttribute(card);
-		System.out.println("key=" + Conventions.getVariableName(card));
-		System.out.println(Conventions.getVariableName("abc"));
-		System.out.println(Conventions.getVariableName(100));
-		return "login";
+	public static void main(String[] args) {
+		String[][] str = {{"3719543252","3719543252","北京移通"}};
+		
+		long ip = 3719543253l;
+		
+		
 	}
 }
