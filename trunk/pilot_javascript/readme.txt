@@ -6,8 +6,6 @@ javascript高级教程笔记
 	不能以数字开头
 	大小写敏感且不含特殊字符比如class等（javascript可以含有特殊字符，但是不建议使用）
 
-
-
 2、java申明全局变量和局部变量是否可以不赋值就使用?
 	全局变量可以被直接使用，但是局部变量必须定义并赋值（数组必须初始化,至于数组需要补充什么复习java时在看）
 
@@ -17,7 +15,12 @@ javascript高级教程笔记
 4、javascript中变量可以重复定义，最后一个变量覆盖前面的变量值，但是java里面变量不能重复定义,
 	比如：x = 5; var x = 100; 那么100就会覆盖5成为x变量的值
 	
-5、javascript有一种数组定义var arr2 = [1,2,3,4,5,6,6,7,8,9];java里面有一种定义String[] S = {"1","2","3"};，一个是{}一个是[]	
+5、 javascript有一种数组定义var arr2 = [1,2,3,4,5,6,6,7,8,9];
+   java里面有一种定义String[] S = {"1","2","3"};，一个是{}一个是[],js里面定义对象是用{}
+   js定义数组其它的方法:var arr2 = new Array(1,2,3,4,5,6,7,8,9,0);或者var arr2 = new Array(); arr2.push(0); arr2.push(3);或者var arr2 = new Array(); arr2[0] = a; arr2[1] = b;
+   
+6  js定义对象: var o = {name:Harry ye, age:26}   
+   	
 
 
 
