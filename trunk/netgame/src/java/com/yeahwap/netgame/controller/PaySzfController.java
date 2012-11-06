@@ -28,9 +28,11 @@ import com.yeahwap.netgame.domain.SzfErrorCode;
 import com.yeahwap.netgame.domain.pojo.Merchant;
 import com.yeahwap.netgame.domain.pojo.Order;
 import com.yeahwap.netgame.domain.pojo.SzfOrder;
+import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.netgame.service.MerchantService;
 import com.yeahwap.netgame.service.OrderService;
 import com.yeahwap.netgame.service.SzfOrderService;
+import com.yeahwap.netgame.service.UserService;
 import com.yeahwap.netgame.szf.ServerConnSzxUtils;
 import com.yeahwap.netgame.util.StringUtil;
 
@@ -56,6 +58,10 @@ public class PaySzfController {
 	@Qualifier("szfOrderService")
 	private SzfOrderService szfOrderService;
 	
+	@Autowired
+	@Qualifier("userService")
+	private UserService userService;
+	
 	@RequestMapping(value="{uid}/{fromid}/{cardType}/szfSend.do")
 	public String szfSend(@PathVariable("uid") String uid, @PathVariable("fromid") String fromid, @PathVariable("cardType") byte cardType, ModelMap modelMap) {
 		SzfCard szfCard = new SzfCard();
@@ -69,7 +75,7 @@ public class PaySzfController {
 
 	@RequestMapping(value="{fromid}/{uid}/szfValid.do")
 	public String szfValid(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap) {
-		// System.out.println(szfCard.toString());
+		System.out.println(szfCard.toString());
 		modelMap.put("uid", uid);
 		modelMap.put("fromid", fromid);
 		
@@ -100,7 +106,7 @@ public class PaySzfController {
 		System.out.println("uid=" + uid + ";fromid=" + fromid);
 		
 		// 获取商户信息
-		Merchant mer = merchantService.get(MerInfo.SZFINFO);
+		Merchant mer = getMerInfo();
 		System.out.println("商户信息:" + mer);
 		SzfOrder szfOrder = addSzfOrder(uid, fromid, szfCard, mer);
 		int id = szfOrderService.add(szfOrder);
@@ -112,16 +118,17 @@ public class PaySzfController {
 	@ResponseBody
 	public Object payAjax(HttpServletRequest request) {
 		String szfOrderId = request.getParameter("data");
+		
 		if (("").equals(szfOrderId) || szfOrderId == null) {
 			return "订单号格式出错，充值失败";
 		}
 		
 		SzfOrder szfOrder = szfOrderService.get(szfOrderId);
-		Merchant mer = merchantService.get(MerInfo.SZFINFO);
+		Merchant mer = getMerInfo();
 		String code = "-1"; 
 		
 		if (szfOrder != null) {
-			code = accessingURL(szfOrder.getId(), mer);
+			code = accessingURL(szfOrder, mer);
 			
 			if (!code.equals("200")) {
 				closeOrder(szfOrderId);
@@ -157,14 +164,16 @@ public class PaySzfController {
 		String szfOrderId = DAYFORMAT.format(new Date()) + "-" + mer.getMerId() + "-" + orderId;
 		szfOrder.setOrderId(szfOrderId);
 		
-		szfOrder.setReturnUrl(mer.getMerReturnurl());
+		szfOrder.setReturnUrl(mer.getReturnUrl());
 		
 		// TODO 充值卡加密信息,mer.getDesKey()流程需要找神州付获取
-		String cardInfo = ServerConnSzxUtils.getDesEncryptBase64String(card.getCardMoney()*100 + "", card.getCardSN(), card.getCardPassword(), mer.getDesKey());
+		String cardInfo = ServerConnSzxUtils.getDesEncryptBase64String(card.getCardMoney() + "", card.getCardSN(), card.getCardPassword(), mer.getDesKey());
 		szfOrder.setCardInfo(cardInfo);
 		
-		szfOrder.setMerUserName(mer.getMerName());
-		szfOrder.setMerUserMail(mer.getMerEmail());
+		// 平台用户名
+		User user = userService.get(uid);
+		szfOrder.setMerUserName(user.getName());
+		szfOrder.setMerUserMail(user.getEmail());
 		
 		// TODO 私有数据,需要问神州付工作人员
 		String privateField = uid + "_" + fromid + "_" + orderId;
@@ -174,7 +183,7 @@ public class PaySzfController {
 		szfOrder.setCardTypeCombine(card.getCardType());
 		
 		// TODO Md5校验字符串,需要问神州付工作人员
-		String combineString = mer.getVersion() + mer.getMerId() + 0 + szfOrderId + mer.getMerReturnurl() + cardInfo + privateField + mer.getVerifyType() + mer.getPrivateKey();
+		String combineString = mer.getVersion() + mer.getMerId() + 0 + szfOrderId + mer.getReturnUrl() + cardInfo + privateField + mer.getVerifyType() + mer.getPrivateKey();
 		String md5String = DigestUtils.md5Hex(combineString); //md5加密串
 		szfOrder.setMd5String(md5String);
 		
@@ -190,23 +199,23 @@ public class PaySzfController {
 	}
 	
 	// 访问神州付完成支付
-	private String accessingURL(int id, Merchant mer) {
+	private String accessingURL(SzfOrder szfOrder, Merchant mer) {
 		// 构建支付URL
-		SzfOrder szfOrder = szfOrderService.get(id);
 		try {
-			String urlRequestData = mer.getUrl() + "?version="
-					+ szfOrder.getVersion() + "&merId=" + mer.getMerId()
-					+ "&payMoney=" + szfOrder.getPayMoney() + "&orderId="
-					+ szfOrder.getOrderId() + "&returnUrl="
-					+ mer.getMerReturnurl() + "&cardInfo="
-					+ URLEncoder.encode(szfOrder.getCardInfo(), "utf-8")
-					+ "&merUserName=" + mer.getMerName() + "&merUserMail="
-					+ mer.getMerEmail() + "&privateField="
-					+ szfOrder.getPrivateField() + "&verifyType="
-					+ szfOrder.getVerifyType() + "&cardTypeCombine="
-					+ szfOrder.getCardTypeCombine() + "&md5String="
-					+ szfOrder.getMd5String() + "&signString="
-					+ szfOrder.getSignString();
+			String urlRequestData = mer.getUrl() 
+					+ "?version=" + szfOrder.getVersion() 
+					+ "&merId=" + mer.getMerId()
+					+ "&payMoney=" + szfOrder.getPayMoney() 
+					+ "&orderId=" + szfOrder.getOrderId() 
+					+ "&returnUrl=" + mer.getReturnUrl() 
+					+ "&cardInfo=" + URLEncoder.encode(szfOrder.getCardInfo(), "utf-8")
+					+ "&merUserName=" + szfOrder.getMerUserName() 
+					+ "&merUserMail=" + szfOrder.getMerUserMail() 
+					+ "&privateField=" + szfOrder.getPrivateField() 
+					+ "&verifyType=" + szfOrder.getVerifyType() 
+					+ "&cardTypeCombine=" + szfOrder.getCardTypeCombine() 
+					+ "&md5String=" + szfOrder.getMd5String() 
+					+ "&signString=" + szfOrder.getSignString();
 			System.out.println("构造 url 请求数据：" + urlRequestData);
 
 			// 服务器建立连接
@@ -245,6 +254,11 @@ public class PaySzfController {
 		orderService.update(order);
 	}
 
+	// 获取商户信息
+	private Merchant getMerInfo() {
+		Merchant mer = merchantService.get(MerInfo.SZFINFO);
+		return mer;
+	}
 }
 
 

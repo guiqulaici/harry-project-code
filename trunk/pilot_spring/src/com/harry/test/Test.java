@@ -1,5 +1,8 @@
 package com.harry.test;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import com.spring.mvc.domain.HArryCard;
 
 public class Test {
@@ -17,11 +20,23 @@ public class Test {
 	}
 	
 	public static void main(String[] args) {
-		Test t = new Test();
-		t.get1();
-		t.get();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(new Date());
+		cal.add(Calendar.DAY_OF_MONTH, 1);
+		cal.set(Calendar.HOUR_OF_DAY, 2);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MINUTE, 0);
+		Date startTime = cal.getTime();
+		System.out.println(startTime);
 		
-//		System.out.println(t.i);
-//		System.out.println(t.card.getId());
+		
+		Calendar cal_new = Calendar.getInstance();
+		cal_new.setTime(new Date());
+		cal_new.add(Calendar.DAY_OF_MONTH, -1);
+		cal_new.set(Calendar.HOUR_OF_DAY, 0);
+		cal_new.set(Calendar.SECOND, 0);
+		cal_new.set(Calendar.MINUTE, 0);
+		Date beginTime = cal_new.getTime();
+		System.out.println(beginTime);
 	}
 }

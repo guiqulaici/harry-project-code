@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd"> 
+<%@page import="org.springframework.context.ApplicationContext"%>
 <%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=utf-8" %>
 <%@ page import="org.apache.commons.codec.digest.DigestUtils" %>
 <html xmlns="http://www.w3.org/1999/xhtml">  
@@ -15,9 +16,12 @@ String payDetails = request.getParameter("payDetails"); //获取消费详情
 String returnMd5String = request.getParameter("md5String");        //获取MD5加密串
 String errcode = request.getParameter("errcode");
 String signString = request.getParameter("signString");            //神州付证书签名
-String privateKey = ""; // 找神州付拿
+String privateKey = "Harry_admin_szf"; // 找神州付拿
 String combineString = version + "|" + merId + "|" + payMoney + "|" + cardMoney + "|" + orderId + "|" + payResult + "|" + privateField + "|" + payDetails + "|" + privateKey;
 String md5String = DigestUtils.md5Hex(combineString);
+
+System.out.println("接收数据:" + version + ";" + merId + ";" + payMoney + ";" + cardMoney + ";" + orderId + ";" + payResult + ";" + privateField + ";" + payDetails + ";" + md5String + ";" + errcode);
+
 
 if (md5String.equals(returnMd5String)) {
 	System.out.println("md5验证成功!!");
