@@ -23,47 +23,34 @@ public class Merchant {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@Column(name = "mer_id", nullable = false)
-	private String merId;
-	@Column(name = "mer_name", nullable = false)
-	private String merName;
-	@Column(name = "mer_returnurl", nullable = false)
-	private String merReturnurl;
-	@Column(name = "mer_email", nullable = false)
-	private String merEmail;
+
 	@Column(name = "version", nullable = false)
-	private String version;
+	private String version; // 接口版本号
+
+	@Column(name = "mer_id", nullable = false)
+	private String merId; // 商户ID
+
+	@Column(name = "return_url", nullable = false)
+	private String returnUrl; // 服务器返回地址
+
 	@Column(name = "verify_type", nullable = false)
-	private byte verifyType;
-	@Column(name = "des_key", nullable = false)
-	private String desKey;
+	private byte verifyType; // 数据校验方式
+
 	@Column(name = "url", nullable = false)
-	private String url;
+	private String url; // 支付接口地址
+
 	@Column(name = "private_key", nullable = false)
-	private String privateKey;
+	private String privateKey; // md5加密密钥
 
-	public String getUrl() {
-		return url;
+	@Column(name = "des_key", nullable = false)
+	private String desKey; // 信息加密密钥
+
+	public int getId() {
+		return id;
 	}
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getDesKey() {
-		return desKey;
-	}
-
-	public void setDesKey(String desKey) {
-		this.desKey = desKey;
-	}
-
-	public byte getVerifyType() {
-		return verifyType;
-	}
-
-	public void setVerifyType(byte verifyType) {
-		this.verifyType = verifyType;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getVersion() {
@@ -74,14 +61,6 @@ public class Merchant {
 		this.version = version;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public String getMerId() {
 		return merId;
 	}
@@ -90,28 +69,28 @@ public class Merchant {
 		this.merId = merId;
 	}
 
-	public String getMerName() {
-		return merName;
+	public String getReturnUrl() {
+		return returnUrl;
 	}
 
-	public void setMerName(String merName) {
-		this.merName = merName;
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
 	}
 
-	public String getMerReturnurl() {
-		return merReturnurl;
+	public byte getVerifyType() {
+		return verifyType;
 	}
 
-	public void setMerReturnurl(String merReturnurl) {
-		this.merReturnurl = merReturnurl;
+	public void setVerifyType(byte verifyType) {
+		this.verifyType = verifyType;
 	}
 
-	public String getMerEmail() {
-		return merEmail;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setMerEmail(String merEmail) {
-		this.merEmail = merEmail;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getPrivateKey() {
@@ -122,17 +101,24 @@ public class Merchant {
 		this.privateKey = privateKey;
 	}
 
+	public String getDesKey() {
+		return desKey;
+	}
+
+	public void setDesKey(String desKey) {
+		this.desKey = desKey;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("merId=" + this.merId + ";");
-		sb.append("merName=" + this.merName + ";");
-		sb.append("merReturnurl=" + this.merReturnurl + ";");
-		sb.append("merEmail=" + this.merEmail + ";");
 		sb.append("version=" + this.version + ";");
+		sb.append("merId=" + this.merId + ";");
+		sb.append("returnUrl=" + this.returnUrl + ";");
 		sb.append("verifyType=" + this.verifyType + ";");
-		sb.append("desKey=" + this.desKey + ";");
 		sb.append("url=" + this.url + ";");
+		sb.append("privateKey=" + this.privateKey + ";");
+		sb.append("desKey=" + this.desKey);
 		return sb.toString();
 	}
 
