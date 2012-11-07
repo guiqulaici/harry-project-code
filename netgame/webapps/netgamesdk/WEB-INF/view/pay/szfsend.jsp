@@ -16,13 +16,21 @@
 		<tr>
 		<td>充值卡面额:</td>
 		<td>
+			<c:if test="${szfCard.cardType == 0}">
+				<sf:radiobutton path="cardMoney" value="10"/>10元
+			</c:if>
+			
+			<sf:radiobutton path="cardMoney" value="20"/>20元
+			<sf:radiobutton path="cardMoney" value="30"/>30元
 			<sf:radiobutton path="cardMoney" value="50"/>50元
 			<sf:radiobutton path="cardMoney" value="100"/>100元
-			<sf:radiobutton path="cardMoney" value="300"/>300元
-			<sf:radiobutton path="cardMoney" value="500"/>500元
-            <span>请用户确认充值卡面值与产品面值相符，否则后果自负</span>
+			<c:if test="${szfCard.cardType != 2 }">
+				<sf:radiobutton path="cardMoney" value="300"/>300元
+				<sf:radiobutton path="cardMoney" value="500"/>500元
+			</c:if>
         </td>
 		</tr>
+		<tr><td colspan="2">请用户确认充值卡面值与产品面值相符，否则后果自负</td></tr>
 		<tr><td><input type="submit" value="提交"/></td></tr>
 	</table>
 </sf:form>
