@@ -5,6 +5,7 @@
 
 
 http://www.cnblogs.com/hawk0035/archive/2011/09/24/2189362.html
+加了这个AnnotationMethodHandlerAdapter验证失效了，另外搞清楚ExamBan的spring-web.xml的driveranntion的配置后面的参数是什么意思
 	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->    
 	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >  
 	 	<property name="messageConverters">   
@@ -42,3 +43,8 @@ http://www.cnblogs.com/hawk0035/archive/2011/09/24/2189362.html
 	        </list>  
 	    </property>  
 	</bean>
+
+
+如何在jsp页面用beanfactory实例化service
+
+sql语句结构，多个表，第一个表1条数据，对应第二个表多个数据以此类推

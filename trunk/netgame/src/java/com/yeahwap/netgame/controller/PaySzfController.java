@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yeahwap.netgame.domain.AccountType;
 import com.yeahwap.netgame.domain.MerInfo;
-import com.yeahwap.netgame.domain.OrderType;
+import com.yeahwap.netgame.domain.OrderStatus;
 import com.yeahwap.netgame.domain.SzfCard;
 import com.yeahwap.netgame.domain.SzfErrorCode;
 import com.yeahwap.netgame.domain.pojo.Merchant;
@@ -34,6 +35,7 @@ import com.yeahwap.netgame.service.OrderService;
 import com.yeahwap.netgame.service.SzfOrderService;
 import com.yeahwap.netgame.service.UserService;
 import com.yeahwap.netgame.szf.ServerConnSzxUtils;
+import com.yeahwap.netgame.util.DateUtil;
 import com.yeahwap.netgame.util.StringUtil;
 
 /**
@@ -47,6 +49,7 @@ import com.yeahwap.netgame.util.StringUtil;
 @RequestMapping("/szf")
 public class PaySzfController {
 	public static final SimpleDateFormat DAYFORMAT = new SimpleDateFormat("yyyyMMdd");
+	public static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	@Autowired
 	@Qualifier("merchantService")
 	private MerchantService merchantService;
@@ -69,13 +72,11 @@ public class PaySzfController {
 		modelMap.addAttribute("szfCard", szfCard);
 		modelMap.put("uid", uid);
 		modelMap.put("fromid", fromid);
-		// System.out.println("uid=" + uid + ";fromid=" + fromid);
 		return "pay/szfsend";
 	}
 
 	@RequestMapping(value="{fromid}/{uid}/szfValid.do")
 	public String szfValid(@PathVariable("uid") int uid, @PathVariable("fromid") int fromid, @Valid SzfCard szfCard , BindingResult br, ModelMap modelMap) {
-		System.out.println(szfCard.toString());
 		modelMap.put("uid", uid);
 		modelMap.put("fromid", fromid);
 		
@@ -107,7 +108,7 @@ public class PaySzfController {
 		
 		// 获取商户信息
 		Merchant mer = getMerInfo();
-		System.out.println("商户信息:" + mer);
+		System.out.println("merInfo:" + mer);
 		SzfOrder szfOrder = addSzfOrder(uid, fromid, szfCard, mer);
 		int id = szfOrderService.add(szfOrder);
 		
@@ -141,11 +142,14 @@ public class PaySzfController {
 	// 新建本地订单
 	private int addOrder(int uid, int fromid, int money) {
 		Order order = new Order();
+		Date date = new Date();
 		order.setUid(uid);
 		order.setFromid(fromid);
-		order.setStatus(OrderType.WAITPAY);
-		order.setDateTime(new Date());
+		order.setStatus(OrderStatus.WAITPAY);
+		order.setDateTime(date);
 		order.setPayMoney(money);
+		order.setBalanceday(DateUtil.parse(FORMAT.format(date)));
+		order.setType(AccountType.SZF_DEPOSIT);
 		int id = orderService.add(order);
 		return id;
 	}
@@ -193,7 +197,7 @@ public class PaySzfController {
 		szfOrder.setUid(uid);
 		szfOrder.setFromid(fromid);
 		szfOrder.setDateTime(new Date());
-		szfOrder.setStatus(OrderType.WAITPAY);
+		szfOrder.setStatus(OrderStatus.WAITPAY);
 		
 		return szfOrder;
 	}
@@ -244,13 +248,13 @@ public class PaySzfController {
 	
 	private void closeOrder(String szfOrderId) {
 		SzfOrder szfOrder = szfOrderService.get(szfOrderId);
-		szfOrder.setStatus(OrderType.CLOSEPAY);
+		szfOrder.setStatus(OrderStatus.CLOSEPAY);
 		szfOrderService.update(szfOrder);
 		
 		String orderIdStr = szfOrderId.substring(szfOrderId.lastIndexOf("-") + 1, szfOrderId.length());
 		int orderId = StringUtil.getInt(orderIdStr, 0);
 		Order order = orderService.get(orderId);
-		order.setStatus(OrderType.CLOSEPAY);
+		order.setStatus(OrderStatus.CLOSEPAY);
 		orderService.update(order);
 	}
 

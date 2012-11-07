@@ -16,21 +16,48 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "order_base")
+@Table(name = "account")
 public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
 	@Column(name = "uid", nullable = false)
 	private int uid;
+	
 	@Column(name = "fromid", nullable = false)
 	private int fromid;
+	
 	@Column(name = "status", nullable = false)
-	private byte status; // 1.等待支付， 2.支付成功
+	private byte status; // 1.等待支付， 2.支付成功,3.调用支付失败,4.支付失败
+	
 	@Column(name = "pay_money", nullable = false)
 	private int payMoney;
+	
+	@Column(name = "balanceday", nullable = false)
+	private Date balanceday;
+	
+	@Column(name = "type", nullable = false)
+	private byte type; // 1.神州付入账单，2.易宝入账单， 3.支付宝入账单
+	
 	@Column(name = "date_time", nullable = false)
 	private Date dateTime;
+
+	public byte getType() {
+		return type;
+	}
+
+	public void setType(byte type) {
+		this.type = type;
+	}
+
+	public Date getBalanceday() {
+		return balanceday;
+	}
+
+	public void setBalanceday(Date balanceday) {
+		this.balanceday = balanceday;
+	}
 
 	public Date getDateTime() {
 		return dateTime;
@@ -90,7 +117,5 @@ public class Order {
 		sb.append("dateTime=" + this.dateTime);
 		return sb.toString();
 	}
-	
-	
-	
+
 }
