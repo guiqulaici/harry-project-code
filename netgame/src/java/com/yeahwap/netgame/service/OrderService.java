@@ -20,15 +20,6 @@ public class OrderService extends GeneralService<Order> {
 	}
 	
 	public static void main(String[] args) {
-//		ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext-hibernate.xml");
-//		OrderService os = (OrderService) ctx.getBean("orderService");
-//		Order order = new Order();
-//		order.setDateTime(new Date());
-//		order.setFromid(1);
-//		order.setUid(1);
-//		order.setPayMoney(50000);
-//		order.setStatus(OrderType.WAITPAY);
-//		System.out.println(order);
-//		os.add(order);
+
 	}
 }
