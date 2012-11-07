@@ -48,16 +48,16 @@ if (md5String.equals(returnMd5String)) {
 	System.out.println("md5 vaild success!!");
 	if ("1".equals(payResult)) {
 		System.out.println("pay success !!");
-		szfTransactional.updateAccountStatus(szfOrder, order, OrderStatus.PASSPAY);
+		szfTransactional.updateAccountStatus(szfOrder, order, OrderStatus.PASSPAY, privateField);
 		try {response.getWriter().write(orderId);}catch(Exception ex){System.out.println(ex.getMessage());}
 	} else {
 		// 记录支付失败日志
-		szfTransactional.updateAccountStatus(szfOrder, order, OrderStatus.PAYERROR);
+		szfTransactional.updateAccountStatus(szfOrder, order, OrderStatus.PAYERROR, privateField);
 		System.out.println("pay error !!");
 	}
 } else {
 	// 验证失败
-	szfTransactional.updateAccountStatus(szfOrder, order, OrderStatus.VALIDERROR);
+	szfTransactional.updateAccountStatus(szfOrder, order, OrderStatus.VALIDERROR, privateField);
 	System.out.println("md5 valid error !!");
 }
 %>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.yeahwap.netgame.Constants;
+import com.yeahwap.netgame.domain.UserStatus;
 import com.yeahwap.netgame.domain.pojo.User;
 import com.yeahwap.netgame.hessian.AccessHessianService;
 import com.yeahwap.netgame.hessian.UserHessianService;
@@ -88,6 +89,7 @@ public class UserClientController {
 			user.setScore(0);
 			user.setIsview(0);
 			user.setType(1);
+			user.setStatus(UserStatus.NORMAL);
 			user.setWeiboId("");
 			user.setToken("");
 			user.setSecret("");
