@@ -19,7 +19,7 @@ import javax.persistence.Table;
 @Table(name = "user")
 public class User implements java.io.Serializable {
 	private static final long serialVersionUID = 7896211206968804796L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column
@@ -60,6 +60,17 @@ public class User implements java.io.Serializable {
 
 	@Column(name = "secret", nullable = true, length = 50)
 	private String secret;
+
+	@Column(name = "status", nullable = true, length = 4)
+	private byte status;
+
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
+	}
 
 	public int getId() {
 		return id;

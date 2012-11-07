@@ -35,6 +35,17 @@ public class NgFrom implements java.io.Serializable {
 	
 	@Column(name = "isview", nullable = false, length = 4)
 	private int isview;
+	
+	@Column(name = "status", nullable = false, length = 4)
+	private byte status;
+	
+	public byte getStatus() {
+		return status;
+	}
+
+	public void setStatus(byte status) {
+		this.status = status;
+	}
 
 	public int getId() {
 		return id;
