@@ -1,0 +1,66 @@
+1、使用springmvc的验证@valid 当发生错误之后，使用BindingResult 并再次重写renturn到页面的时候，被验证的实体也是会被再次映射到前台的，但是非验证的实体，就需要我们再次传值过去了
+2、java的前台和后台url路径"/" 和没有"/"（privateproject）
+3、form前后台绑定使用modelAttribute，不使用modelAttribute默认绑定需要满足什么条件，privateproject有讲到
+4、springmvc中直接添加model.add(value)默认key是就是value的类型，至于是否第一个字母小写。privateproject有讲到
+5、如何在jsp页面用spring的beanfactory得到service
+	WebApplicationContext wac=WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+	IDemoService ds = (IDemoService)wac.getBean("demoService");
+6、jsp页面<%! %>中声明的变量为static，这里才可以声明方法
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+js的继承
+<jsp:useBean id="guessBiz" class="biz.GuessBiz" scope="session"></jsp:useBean>
+sql语句结构，多个表，第一个表1条数据，对应第二个表多个数据以此类推
+我怎么加上AnnotationMethodHandlerAdapter就不能使用@valid注解了
+http://www.cnblogs.com/hawk0035/archive/2011/09/24/2189362.html
+加了这个AnnotationMethodHandlerAdapter验证失效了，另外搞清楚ExamBan的spring-web.xml的driveranntion的配置后面的参数是什么意思
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->    
+	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" >  
+	 	<property name="messageConverters">   
+	          <list>   
+	              <bean class = "org.springframework.http.converter.StringHttpMessageConverter">   
+	                 <property name = "supportedMediaTypes">
+	                       <list>
+	                           <value>text/html;charset=UTF-8</value>   
+	                      </list>   
+	                 </property>   
+	              </bean>   
+	          </list>   
+	    </property>  
+	 </bean>
+
+<mvc:annotation-driven/> 必须要在它的后面
+
+
+
+<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="cn.zySoft.common.web.springmvc.BindingInitializer"/>
+		</property>
+		<property name="messageConverters">  
+		<util:list id="beanList">  
+			<ref bean="mappingJacksonHttpMessageConverter"/>  
+		</util:list>  
+    </property> 
+	</bean>
+
+<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">  
+    <property name="supportedMediaTypes">  
+	<list>  
+	    <value>text/html;charset=UTF-8</value>  
+	</list>  
+    </property>  
+</bean>
