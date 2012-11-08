@@ -1,0 +1,9 @@
+[DEFAULT]
+BASEURL=http://wenku.baidu.com/view/70c67f2e915f804d2b16c10e.html
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,2
+[InternetShortcut]
+URL=http://wenku.baidu.com/view/70c67f2e915f804d2b16c10e.html
+IDList=
+IconFile=http://wenku.baidu.com/favicon.ico
+IconIndex=1
