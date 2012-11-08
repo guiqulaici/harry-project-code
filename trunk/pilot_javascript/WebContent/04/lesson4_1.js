@@ -64,7 +64,7 @@ function Person() {
 
 // 给Person类，利用原型模式给他添加一个getCount方法
 Person.getCount = function(x, y) {
-	alert(x,y);
+	alert(x+ ";" + y);
 };
 
 // 调用person的getConut方法
@@ -76,3 +76,60 @@ Person.getName = function() {
 	// 里非静态的属性，因此，我们需要初始化这个对象，这个和java是一样的
 	alert(new Person().name);
 };
+
+
+// -------------------------------分割线--------------------------------------
+// 5、js中还有一些定义类的简写方式
+var a = {}; // 前面有讲到这样可以定义一个对象 
+var b = []; // 前面有讲到这样可以定义一个数组 这2种方式都可以定义类，a和b
+a["name"] = "Harry Ye"; // 前面有讲到这样可以定义对象的属性，这里一样
+
+alert(a.name);
+
+
+// --------------------------------分割线--------------------------------------
+// 6、模拟map函数
+// java里面：Map<key, value> map = new Mapn<key, value>();
+
+function JMap() {
+	var maps = {};
+	// put
+	this.put = function(key, value){
+		maps[key] = value;
+	};
+	
+	this.get = function(key) {
+		// 不可以用maps.key
+		return maps[key];
+	};
+	
+	this.foreach = function() {
+		for (var key in maps) {
+			document.write(key + "----------->" + maps[key] + "<br/>");
+		}
+	};
+	
+	this.foreach = function(fn) {
+		for (var key in maps) {
+			document.write(key + "----------->" + maps[key] + "<br/>");
+			fn(key, maps[key]);
+		}
+	};
+}
+
+var jmap = new JMap();
+jmap.put("1","Harry Ye");
+jmap.put("2","Lu Jingli");
+alert(jmap.get("1"));
+
+jmap.foreach(function(key, value) {
+	alert(key + "----------->" + value);
+});
+
+
+
+
+
+
+
+
