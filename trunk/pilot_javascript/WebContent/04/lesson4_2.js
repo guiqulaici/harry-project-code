@@ -53,7 +53,7 @@ var cat = {};
 cat.__proto__.sex = "女";
 //测试
 cat.age = 2; // 给Cat对象添加属性
-cat["ID"] = "110"; // 个体cat队形添加属性
+cat["ID"] = "110"; // 给cat添加属性
 //alert(";" + cat.sex + ";" + cat["age"] + ";" + cat.ID);
 
  
@@ -123,7 +123,7 @@ function n() {
 }
 
 n.prototype = m;
-n.prototype.constructor = n;
+n.prototype.constructor = n; //其实不用指定本身的构造函数，使用m的构造函数也可以，但是为啥要指定，没搞明白
 
 var k = {};
 k.__proto__ = new n();
