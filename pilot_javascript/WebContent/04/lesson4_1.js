@@ -24,6 +24,10 @@ function Shape2() {
 	this.draw2 = function() {
 		alert("我是公有函数");
 	};
+	
+	function draw3() {
+		alert("我也是私有函数");
+	}
 }
 
 var aShap2 = new Shape2();
@@ -99,7 +103,7 @@ function JMap() {
 	};
 	
 	this.get = function(key) {
-		// 不可以用maps.key
+		// 不可以用maps.key,因为maps.key代表maps对象里面有一个名叫key的属性，maps.xxx的方式只能说明xxx是一个属性名，并不能和map[xxx]作为一个变量的引用.补充，如果maps["xxx"]这样写的话，xxx就代表了是字符串即变量名而非引用,前面章节有讲解过
 		return maps[key];
 	};
 	
